@@ -1,7 +1,7 @@
 {
   "name": "wp-tdt",
   "version": "1.0.0",
-  "description": "Theme Developer Tools",
+  "description": "Wordpress Theme Developer Tools",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
