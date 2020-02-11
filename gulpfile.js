@@ -31,16 +31,7 @@ function watchFiles() {
     gulp.watch(['./src/**/*'], gulp.series(scssTask, jsTask));
 }
 
-function browserSync() {
-    browsersync.init({
-        server: {
-            baseDir: "./"
-        },
-        port: 3000
-    });
-}
-
-const watcher = gulp.parallel(watchFiles, browserSync);
+const watcher = gulp.parallel(watchFiles);
 const build = gulp.series(gulp.parallel(watcher));
 
 exports.default = build;
