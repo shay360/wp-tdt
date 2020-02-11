@@ -29,5 +29,7 @@
     "gulp-sourcemaps": "^2.6.5",
     "node-sass": "^4.13.1",
     "prompt": "^1.0.0"
+  },
+  "dependencies": {
   }
 }
