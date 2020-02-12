@@ -3,8 +3,12 @@
   "version": "1.0.0",
   "description": "Wordpress Theme Developer Tools",
   "main": "index.js",
+  "preferGlobal": true,
+  "bin": {
+    "tdt": "tdt.js"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "watch": "gulp"
   },
   "repository": {
     "type": "git",
