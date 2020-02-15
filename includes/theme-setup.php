@@ -22,6 +22,9 @@ class themetextdomain_ThemeSetup {
             'admin-head-callback' => '',
             'admin-preview-callback' => ''
         ];
+	    /**
+	     * @link https://codex.wordpress.org/Theme_Logo
+	     */
         add_theme_support('custom-logo', [
             'width' => 50,
             'height' => 150
