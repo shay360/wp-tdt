@@ -36,3 +36,4 @@ TODO
 * cli to create new sidebar
 * cli to create new archive: post name
 * cli to create new single post: post name
+* cli to create template files
