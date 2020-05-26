@@ -2,7 +2,72 @@ const fs = require('fs');
 
 exports.generateThemeFiles = (themeConfigFile) => {
     generateBasicTemplateFiles();
+    generateFunctionsFile(themeConfigFile);
+    generateStyleFile(themeConfigFile);
 };
+
+function generateStyleFile(themeConfigFile) {
+    console.log(themeConfigFile.theme_headers.theme_name);
+    fs.writeFile('style.css',
+        `/*
+    Theme Name: ${themeConfigFile.theme_headers.theme_name}
+    Theme URI: ${themeConfigFile.theme_headers.theme_uri}
+    Description: ${themeConfigFile.theme_headers.theme_description}
+    Author: ${themeConfigFile.theme_headers.theme_author}
+    Author URI: ${themeConfigFile.theme_headers.theme_author_uri}
+    Version: 1.0.0
+    Tags: ${themeConfigFile.theme_headers.theme_tags}
+    Text Domain: ${themeConfigFile.theme_headers.theme_text_domain}
+    License: GPL-2.0-or-later
+    License URI: https://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+    */`
+        , function (err) {
+            if (err) throw err;
+            console.log('Archive file: archive.php generated'.green);
+        });
+}
+
+function generateFunctionsFile(themeConfigFile) {
+    fs.writeFile('functions.php',
+        `<?php
+require_once __DIR__ . '/includes/theme-setup.php';`
+        , function (err) {
+            if (err) throw err;
+            console.log('Archive file: archive.php generated'.green);
+        });
+
+    fs.writeFile('includes/theme-setup.php',
+        generateThemeSetupFile(themeConfigFile),
+        function (err) {
+            if (err) throw err;
+            console.log('Archive file: archive.php generated'.green);
+        });
+
+}
+
+function generateThemeSetupFile(themeConfigFile) {
+    let finalString = `<?php
+
+class themePrefix_ThemeSetup {
+
+\tpublic function __construct() {
+\t\tadd_action( 'after_setup_theme', [ $this, 'addThemeSupport' ] );
+\t}
+
+\tpublic function addThemeSupport() {`;
+
+    for (const support in themeConfigFile.theme_support) {
+        if (themeConfigFile.theme_support[support]) {
+            finalString += `\t\tadd_theme_support( '${support}' );\n`;
+        }
+    }
+
+    finalString += `}
+}
+new themePrefix_ThemeSetup();`;
+
+    return finalString;
+}
 
 function generateBasicTemplateFiles() {
     fs.writeFile('archive.php',

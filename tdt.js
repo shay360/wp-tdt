@@ -75,12 +75,6 @@ program.command('support')
                 },
                 {
                     type: 'list',
-                    name: 'editor-style-support',
-                    message: 'editor-style-support',
-                    choices: ['true', 'false'],
-                },
-                {
-                    type: 'list',
                     name: 'custom-logo',
                     message: 'custom-logo',
                     choices: ['true', 'false'],
@@ -95,6 +89,8 @@ program.command('support')
 program.command('generate')
     .description('Generate the basic new theme files include core template files, functions and styles')
     .action(() => {
+        console.log('Basic file generation started'.blue);
         generateThemeBasicFiles();
+        console.log('Basic file generation finished'.yellow);
     });
 program.parse(process.argv);
