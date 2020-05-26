@@ -5,7 +5,7 @@
 
 ## How to use this tool
 1. Clone this repository
-2. change the project name to desired theme name
+2. change the project folder name to desired theme name
 3. install all npm packages with npm install
 4. link the cli to npm with `npm link`
 
