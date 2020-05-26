@@ -70,6 +70,44 @@ new themePrefix_ThemeSetup();`;
 }
 
 function generateBasicTemplateFiles() {
+    fs.writeFile('languages/README.txt',
+        `This directory is for placing only language MO files`
+        , function (err) {
+            if (err) throw err;
+            console.log('Languages folder generated'.green);
+        });
+
+
+    fs.writeFile('template-parts/get-post.php',
+        `<?php
+if ( have_posts() ):
+\twhile ( have_posts() ) : the_post();
+\t\tthe_post_thumbnail();
+\t\tthe_title();
+\t\tthe_content();
+\tendwhile;
+endif;
+?>`
+        , function (err) {
+            if (err) throw err;
+            console.log('Template Part get-post.php generated'.green);
+        });
+
+    fs.writeFile('template-parts/get-posts.php',
+        `<?php
+if ( have_posts() ):
+\twhile ( have_posts() ) : the_post();
+\t\tget_the_tag_list();
+\t\tthe_post_thumbnail();
+\t\tthe_title();
+\t\tthe_content();
+\tendwhile;
+endif;
+?>`
+        , function (err) {
+            if (err) throw err;
+            console.log('Template Part get-posts.php generated'.green);
+        });
     fs.writeFile('archive.php',
         `<?php get_header(); ?>
 <?php get_template_part( 'template-parts/get', 'posts' ); ?>

@@ -32,6 +32,7 @@ For compiling the files please run `npm run watch` this will start a gulpfile th
 
 
 TODO
+* generate the template-parts folder with tdt generate
 * cli to create new theme template: template name - including scss file for template
 * cli to create new widget
 * cli to create new sidebar

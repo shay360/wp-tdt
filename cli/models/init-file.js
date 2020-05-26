@@ -19,7 +19,7 @@ exports.createNewConfigFileWithThemeHeadersOnly = (headers) => {
     fs.writeFile('tdt.config.json', buildNewThemeHeadersOnly(headers), function (err) {
         if (err) throw err;
         console.log('tdt.config.json created'.green);
-        console.log('For theme support configuration "tdt set-support"'.red);
+        console.log('For theme support configuration "tdt support"'.red);
     });
 };
 
