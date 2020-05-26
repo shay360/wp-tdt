@@ -7,7 +7,6 @@ exports.generateThemeFiles = (themeConfigFile) => {
 };
 
 function generateStyleFile(themeConfigFile) {
-    console.log(themeConfigFile.theme_headers.theme_name);
     fs.writeFile('style.css',
         `/*
     Theme Name: ${themeConfigFile.theme_headers.theme_name}
@@ -35,6 +34,10 @@ require_once __DIR__ . '/includes/theme-setup.php';`
             if (err) throw err;
             console.log('Archive file: archive.php generated'.green);
         });
+    fs.mkdir('includes/', {recursive: true}, (err) => {
+        if (err) throw err;
+
+    });
 
     fs.writeFile('includes/theme-setup.php',
         generateThemeSetupFile(themeConfigFile),
@@ -70,11 +73,19 @@ new themePrefix_ThemeSetup();`;
 }
 
 function generateBasicTemplateFiles() {
+    fs.mkdir('languages', {recursive: true}, (err) => {
+        if (err) throw err;
+    });
+    fs.mkdir('template-parts', {recursive: true}, (err) => {
+        if (err) throw err;
+    });
+
+
     fs.writeFile('languages/README.txt',
-        `This directory is for placing only language MO files`
+        ``
         , function (err) {
             if (err) throw err;
-            console.log('Languages folder generated'.green);
+            console.log('Template Part get-post.php generated'.green);
         });
 
 
@@ -108,6 +119,7 @@ endif;
             if (err) throw err;
             console.log('Template Part get-posts.php generated'.green);
         });
+
     fs.writeFile('archive.php',
         `<?php get_header(); ?>
 <?php get_template_part( 'template-parts/get', 'posts' ); ?>
