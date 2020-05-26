@@ -32,7 +32,6 @@ For compiling the files please run `npm run watch` this will start a gulpfile th
 
 
 TODO
-* cli to create new theme template: template name - including scss file for template
 * cli to create new widget
 * cli to create new sidebar
 * cli to create new archive: post name
