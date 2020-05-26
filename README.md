@@ -5,7 +5,7 @@
 
 ## How to use this tool
 1. Clone this repository
-2. change the project name to desired theme name
+2. change the project folder name to desired theme name
 3. install all npm packages with npm install
 4. link the cli to npm with `npm link`
 
@@ -14,7 +14,7 @@ To start with new theme use `tdt init` and follow the instructions of cli
 
 > this process will create a new tdt.config.json file
 
-Set the the support use `tdt support` and follow the instructions
+Set the theme support use `tdt support` and follow the instructions
 
 > this process will set the new data and minify the final json config file.
 
@@ -32,9 +32,9 @@ For compiling the files please run `npm run watch` this will start a gulpfile th
 
 
 TODO
-* generate the template-parts folder with tdt generate
 * cli to create new theme template: template name - including scss file for template
 * cli to create new widget
 * cli to create new sidebar
 * cli to create new archive: post name
 * cli to create new single post: post name
+* cli to create template files
