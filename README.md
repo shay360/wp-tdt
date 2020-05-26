@@ -14,7 +14,7 @@ To start with new theme use `tdt init` and follow the instructions of cli
 
 > this process will create a new tdt.config.json file
 
-Set the the support use `tdt support` and follow the instructions
+Set the theme support use `tdt support` and follow the instructions
 
 > this process will set the new data and minify the final json config file.
 
