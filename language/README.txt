@@ -1,0 +1,1 @@
+This directory is for placing only language MO files

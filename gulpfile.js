@@ -21,6 +21,7 @@ function scssTask() {
     return gulp.src('./src/css/theme.scss')
         .pipe(sass.sync().on('error', sass.logError))
         .pipe(sourcemaps.init())
+        .pipe(sass().on('error', sass.logError))
         .pipe(sass({outputStyle: 'compressed'}).on('error', sass.logError))
         .pipe(sourcemaps.write('./maps'))
         .pipe(gulp.dest('./dist'));
