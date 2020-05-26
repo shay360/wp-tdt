@@ -50,15 +50,39 @@ function generateBasicTemplateFiles() {
             console.log('Single Post file: single.php generated'.green);
         });
 
-    fs.writeFile('tags.php',
+    fs.writeFile('tag.php',
         `<?php get_header(); ?>
 <?php get_template_part( 'template-parts/get', 'posts' ); ?>
 <?php get_footer(); ?>`
         , function (err) {
             if (err) throw err;
-            console.log('Tags file: tags.php generated'.green);
+            console.log('Tags file: tag.php generated'.green);
         });
 
+    fs.writeFile('footer.php',
+        `<?php wp_footer(); ?>
+</body>
+</html>`
+        , function (err) {
+            if (err) throw err;
+            console.log('Footer file: footer.php generated'.green);
+        });
+    fs.writeFile('header.php',
+        `<!DOCTYPE html>
+<html <?php language_attributes(); ?>>
+<head>
+    <meta charset="<?php bloginfo( 'charset' ); ?>">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title><?php echo wp_title( '', false ) ? ' |' : ''; bloginfo( 'name' ); ?></title>
+\t<?php wp_head(); ?>
+</head>
+<body <?php body_class(); ?> role="document">`
+        , function (err) {
+            if (err) throw err;
+            console.log('Header file: header.php generated'.green);
+        });
     fs.writeFile('comments.php',
         `<div class="comments">
 \t<?php if ( post_password_required() ) : ?>
