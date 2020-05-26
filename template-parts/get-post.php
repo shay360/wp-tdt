@@ -1,9 +1,9 @@
 <?php
-while ( have_posts() ) : the_post();
-	?>
-	<?php
-	// If comments are enabled or there are comments
-	if ( comments_open() || get_comments_number() ) :
-		comments_template();
-	endif;
-endwhile;
+if ( have_posts() ):
+	while ( have_posts() ) : the_post();
+		the_post_thumbnail();
+		the_title();
+		the_content();
+	endwhile;
+endif;
+?>

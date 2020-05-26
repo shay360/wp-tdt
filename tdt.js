@@ -1,17 +1,17 @@
 #! /usr/bin/env node
+// ###run npm link to activate cli###
 const commander = require('commander');
 const program = new commander.Command();
 const colors = require('colors');
-// const prompt = require('prompt');
 const inquirer = require('inquirer');
 
-const {createNewConfigFileWithThemeHeadersOnly, setNewThemeSupportSectionInConfigurationFile} = require('./cli/models/init-file');
+const {createNewConfigFileWithThemeHeadersOnly, setNewThemeSupportSectionInConfigurationFile, generateThemeBasicFiles} = require('./cli/models/init-file');
 
 program.version('0.0.1')
     .description('Wordpress Theme Developer Tools cli');
 
 program.command('init')
-    .description('Set theme headers for configuration file')
+    .description('Set new theme headers for configuration file')
     .action(() => {
         inquirer
             .prompt([
@@ -32,8 +32,8 @@ program.command('init')
             });
     });
 
-program.command('set-support')
-    .description('Set the support')
+program.command('support')
+    .description('Set new theme support')
     .action(() => {
         inquirer
             .prompt([
@@ -91,4 +91,10 @@ program.command('set-support')
             })
     });
 
+
+program.command('generate')
+    .description('Generate the basic new theme files include core template files, functions and styles')
+    .action(() => {
+        generateThemeBasicFiles();
+    });
 program.parse(process.argv);

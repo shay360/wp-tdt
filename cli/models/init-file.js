@@ -1,9 +1,16 @@
 const fs = require('fs');
 const colors = require('colors');
 const {convertSupportOptionsToBooleans} = require('./data-validation');
+const {generateThemeFiles} = require('./generate-files');
+const {getConfigFile} = require('./file-tools');
+
+exports.generateThemeBasicFiles = () => {
+    const themeConfigFile = getConfigFile();
+    generateThemeFiles(themeConfigFile);
+};
 
 /**
- * Create new tdt.config.json file
+ * Create new tdt.config.example.json file
  * This file creation will set only theme headers options
  * @param headers
  */
@@ -31,7 +38,7 @@ function buildNewThemeHeadersOnly(headers) {
 }
 
 /**
- * Create theme support section in tdt.config.json
+ * Create theme support section in tdt.config.example.json
  */
 
 exports.setNewThemeSupportSectionInConfigurationFile = (supportOptions) => {
@@ -48,7 +55,7 @@ exports.setNewThemeSupportSectionInConfigurationFile = (supportOptions) => {
         currentConfigurationFile = JSON.stringify(currentConfigurationFile);
         fs.writeFile('tdt.config.json', currentConfigurationFile, function (err) {
             if (err) throw err;
-            console.log('tdt.config.json created with theme support'.green);
+            console.log('tdt.config.json created and minified'.green);
         });
     });
 

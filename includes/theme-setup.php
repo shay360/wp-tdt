@@ -1,41 +1,23 @@
 <?php
 
-class themetextdomain_ThemeSetup {
-    public function __construct() {
-        add_action('after_setup_theme', [$this, 'setupTheme']);
-    }
+class themePrefix_ThemeSetup {
 
-    function setupTheme() {
-        $this->addThemeSupport();
-    }
+	public function __construct() {
+		add_action( 'after_setup_theme', [ $this, 'addThemeSupport' ] );
+	}
 
-    private function addThemeSupport() {
-        add_theme_support('automatic-feed-links');
-        add_theme_support('post-formats', ['status', 'quote', 'gallery', 'image', 'video', 'audio', 'link', 'aside', 'chat']);
-        add_theme_support('post-thumbnails');
-        $background_args = [
-            'default-color' => '',
-            'default-image' => '',
-            'default-repeat' => '',
-            'default-position-x' => '',
-            'wp-head-callback' => '',
-            'admin-head-callback' => '',
-            'admin-preview-callback' => ''
-        ];
-	    /**
-	     * @link https://codex.wordpress.org/Theme_Logo
-	     */
-        add_theme_support('custom-logo', [
-            'width' => 50,
-            'height' => 150
-        ]);
-        add_theme_support('custom-background', $background_args);
-        add_theme_support('html5', ['search-form', 'comment-form', 'comment-list', 'gallery', 'caption']);
-        add_theme_support('title-tag');
-        add_editor_style();
-        load_theme_textdomain('themename', get_template_directory() . '/language');
+	public function addThemeSupport() {
+		add_editor_style();
+		add_theme_support( 'post-thumbnails' );
+		add_theme_support( 'automatic-feed-links' );
+		add_theme_support( 'post-formats', [ 'aside', 'gallery' ] );
+		add_theme_support( 'custom-background' );
+		add_theme_support( 'custom-header' );
+	}
 
-    }
+
 }
 
-if (class_exists('themetextdomain_ThemeSetup')) $themeSetup = new themetextdomain_ThemeSetup();
+if ( class_exists( 'themePrefix_ThemeSetup' ) ) {
+	$themeSetup = new themePrefix_ThemeSetup();
+}
