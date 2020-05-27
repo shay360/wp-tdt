@@ -201,6 +201,12 @@ program.command('create')
                                     name: 'can_export',
                                     message: "Post type can export?",
                                     choices: ['true', 'false']
+                                },
+                                {
+                                    type: 'list',
+                                    name: 'show_in_rest',
+                                    message: "Post type available for REST",
+                                    choices: ['true', 'false']
                                 }
                             ])
                             .then(answers => {
