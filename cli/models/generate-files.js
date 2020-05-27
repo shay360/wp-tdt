@@ -1,5 +1,6 @@
 const fs = require('fs');
 const {convertToFileName} = require('./file-tools')
+
 exports.generateThemeFiles = (themeConfigFile) => {
     generateBasicTemplateFiles();
     generateFunctionsFile(themeConfigFile);
@@ -84,7 +85,7 @@ require_once __DIR__ . '/post-types/theme-post-types.php';`
 function generateThemeSetupFile(themeConfigFile) {
     let finalString = `<?php
 
-class themePrefix_ThemeSetup {
+class ThemeSetup {
 
 \tpublic function __construct() {
 \t\tadd_action( 'after_setup_theme', [ $this, 'addThemeSupport' ] );
@@ -100,7 +101,7 @@ class themePrefix_ThemeSetup {
 
     finalString += `}
 }
-new themePrefix_ThemeSetup();`;
+new ThemeSetup();`;
 
     return finalString;
 }
