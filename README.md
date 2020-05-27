@@ -11,7 +11,7 @@ To start using tdt, open your bash inside the wp-content/themes directory.
 
 ### CLI commands
 all the commands starts with tdt for example, if i would like to see the help of the tool i will use:<br>
-```tdt -h``` or ```tdt --help```<br>
+`tdt -h` or `tdt --help`<br>
 
 List of commands (with description)
 1. init - Set the basic details of your theme include, theme name, author, URI etc...
@@ -22,6 +22,12 @@ List of commands (with description)
 For compiling the files please run `npm run watch` this will start a gulpfile that will watch the scss and js files.
 4. create - this command will let you create assets for your theme like template files, widgets, sidebars etc...
 
+## Create command
+`tdt create` <br>
+The create command will let you generate new assets for your theme like page templates, custom post types, widgets etc... <br>
+
+1. Template file
+2. CPT
 
 TODO
 * cli to create new archive: post name
