@@ -4,6 +4,7 @@ const commander = require('commander');
 const program = new commander.Command();
 const colors = require('colors');
 const inquirer = require('inquirer');
+const {createCustomPostType} = require('./cli/models/create-assets');
 const {
     createNewConfigFileWithThemeHeadersOnly,
     setNewThemeSupportSectionInConfigurationFile,
@@ -107,8 +108,8 @@ program.command('create')
                 {
                     type: 'list',
                     name: 'new_asset',
-                    message: 'create-new-asset',
-                    choices: ['Template File', 'Widget', 'CPT', 'Taxonomy', 'Dashboard Widget', 'Menu', 'Options Page', 'Sidebar']
+                    message: 'Create New Asset',
+                    choices: ['Template File', 'Archive', 'Single', 'Widget', 'CPT', 'Taxonomy', 'Dashboard Widget', 'Menu', 'Options Page', 'Sidebar']
                 }
             ])
             .then(answers => {
@@ -124,7 +125,87 @@ program.command('create')
                         break;
                     case 'Widget':
                         break;
+                    case 'Archive':
+                        break;
+                    case 'Single':
+                        break;
                     case 'CPT':
+                        inquirer
+                            .prompt([
+                                {type: 'input', name: 'post_type_singular', message: "Singular post type name"},
+                                {type: 'input', name: 'post_type_plural', message: "Plural post type name"},
+                                {type: 'input', name: 'post_type_description', message: "Post type description"},
+                                {type: 'input', name: 'post_type_text_domain', message: "Post type Text Domain"},
+                                {
+                                    type: 'checkbox',
+                                    name: 'supports',
+                                    message: "Post type supports",
+                                    choices: ['title', 'Content Editor', 'Excerpt', 'Featured Image', 'Revisions', 'Author', 'Comments', 'Trackbacks', 'Page Attributes', 'Post Formats', 'Custom Fields']
+                                },
+                                {
+                                    type: 'list',
+                                    name: 'public',
+                                    message: "Post type is public",
+                                    choices: ['true', 'false']
+                                },
+                                {
+                                    type: 'list',
+                                    name: 'hierarchical',
+                                    message: "Post type is Hierarchical",
+                                    choices: ['true', 'false']
+                                },
+                                {
+                                    type: 'list',
+                                    name: 'has_archive',
+                                    message: "Post type has archive?",
+                                    choices: ['true', 'false']
+                                },
+                                {
+                                    type: 'list',
+                                    name: 'exclude_from_search',
+                                    message: "Exclude post type from search?",
+                                    choices: ['true', 'false']
+                                },
+                                {
+                                    type: 'list',
+                                    name: 'publicly_queryable',
+                                    message: "Allow query post publicly?",
+                                    choices: ['true', 'false']
+                                },
+                                {
+                                    type: 'list',
+                                    name: 'show_ui',
+                                    message: "Show post type ui?",
+                                    choices: ['true', 'false']
+                                },
+                                {
+                                    type: 'list',
+                                    name: 'show_in_menu',
+                                    message: "Show post type in menu?",
+                                    choices: ['true', 'false']
+                                },
+                                {
+                                    type: 'list',
+                                    name: 'show_in_nav_menus',
+                                    message: "Show post type in nav menu?",
+                                    choices: ['true', 'false']
+                                },
+                                {
+                                    type: 'list',
+                                    name: 'show_in_admin_bar',
+                                    message: "Show post type in admin bar?",
+                                    choices: ['true', 'false']
+                                },
+                                {
+                                    type: 'list',
+                                    name: 'can_export',
+                                    message: "Post type can export?",
+                                    choices: ['true', 'false']
+                                }
+                            ])
+                            .then(answers => {
+                                createCustomPostType(answers);
+                            });
                         break;
                     case 'Taxonomy':
                         break;
