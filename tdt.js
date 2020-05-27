@@ -140,7 +140,7 @@ program.command('create')
                                     type: 'checkbox',
                                     name: 'supports',
                                     message: "Post type supports",
-                                    choices: ['title', 'Content Editor', 'Excerpt', 'Featured Image', 'Revisions', 'Author', 'Comments', 'Trackbacks', 'Page Attributes', 'Post Formats', 'Custom Fields']
+                                    choices: ['title', 'editor', 'comments', 'thumbnail', 'revisions', 'author', 'excerpt', 'trackbacks', 'page-attributes', 'post-formats', 'custom-fields']
                                 },
                                 {
                                     type: 'list',

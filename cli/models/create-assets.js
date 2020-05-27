@@ -12,10 +12,13 @@ exports.createCustomPostType = (data) => {
             const cptPlural = customPostTypeData.post_type_plural;
             const cptDescription = customPostTypeData.post_type_description;
             const cptTextDomain = customPostTypeData.post_type_text_domain;
-            // customPostTypeData.supports
-            const cptSupports = `[
-                
-                ]`;
+
+            let cptSupports = `[`;
+            customPostTypeData.supports.forEach(support => {
+                cptSupports += `'${support}'`;
+            })
+            cptSupports += `]`;
+            cptSupports = cptSupports.replace(/''/g, '\', \'');
             const fileName = cptSingular + '-post-type.php';
             const cptArgs = `[
                 \t\t'label' => __( '${cptSingular}', '${cptTextDomain}' ),
