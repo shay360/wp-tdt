@@ -13,7 +13,8 @@ To start using tdt, open your bash inside the wp-content/themes directory.
 all the commands starts with tdt for example, if i would like to see the help of the tool i will use:<br>
 `tdt -h` or `tdt --help`<br>
 
-List of commands (with description)
+List of commands (with description)<br>
+> before generating basic theme you must use init and then support 
 1. init - Set the basic details of your theme include, theme name, author, URI etc...
 2. support - Set the basic theme support.
 > this process will create a new tdt.config.json file
