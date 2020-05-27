@@ -3,13 +3,13 @@
 
 To start using tdt, open your bash inside the wp-content/themes directory.
 
-##Installing tdt
+## Installing tdt
 1. Clone this repository to wp-content/themes directory
 2. change the project folder name to desired theme name
 3. install all npm packages with npm install
 4. link the cli to npm with `npm link`
 
-###CLI commands
+### CLI commands
 all the commands starts with tdt for example, if i would like to see the help of the tool i will use:<br>
 ```tdt -h``` or ```tdt --help```<br>
 
