@@ -93,4 +93,40 @@ program.command('generate')
         generateThemeBasicFiles();
         console.log('Basic file generation finished'.yellow);
     });
+
+
+program.command('create')
+    .description('Use this command to create new template files, widgets etc...')
+    .action(() => {
+        inquirer
+            .prompt([
+                {
+                    type: 'list',
+                    name: 'new_asset',
+                    message: 'create-new-asset',
+                    choices: ['Template File', 'Widget', 'CPT', 'Taxonomy', 'Dashboard Widget', 'Menu', 'Options Page', 'Sidebar']
+                }
+            ])
+            .then(answers => {
+                switch (answers.new_asset) {
+                    case 'Template File':
+                        break;
+                    case 'Widget':
+                        break;
+                    case 'CPT':
+                        break;
+                    case 'Taxonomy':
+                        break;
+                    case 'Dashboard Widget':
+                        break;
+                    case 'Menu':
+                        break;
+                    case 'Options Page':
+                        break;
+                    case 'Sidebar':
+                        break;
+                }
+            })
+    });
+
 program.parse(process.argv);

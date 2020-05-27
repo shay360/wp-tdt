@@ -82,7 +82,7 @@ function generateBasicTemplateFiles() {
 
 
     fs.writeFile('languages/README.txt',
-        ``
+        `This directory should contain translation files for your theme`
         , function (err) {
             if (err) throw err;
             console.log('Template Part get-post.php generated'.green);
