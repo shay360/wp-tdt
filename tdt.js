@@ -4,8 +4,12 @@ const commander = require('commander');
 const program = new commander.Command();
 const colors = require('colors');
 const inquirer = require('inquirer');
-
-const {createNewConfigFileWithThemeHeadersOnly, setNewThemeSupportSectionInConfigurationFile, generateThemeBasicFiles} = require('./cli/models/init-file');
+const {
+    createNewConfigFileWithThemeHeadersOnly,
+    setNewThemeSupportSectionInConfigurationFile,
+    generateThemeBasicFiles
+} = require('./cli/models/init-file');
+const {generateTemplateFile} = require('./cli/models/generate-files');
 
 program.version('0.0.1')
     .description('Wordpress Theme Developer Tools cli');
@@ -110,6 +114,13 @@ program.command('create')
             .then(answers => {
                 switch (answers.new_asset) {
                     case 'Template File':
+                        inquirer
+                            .prompt([
+                                {type: 'input', name: 'template_name', message: "What is template name?"},
+                            ])
+                            .then(answers => {
+                                generateTemplateFile(answers.template_name);
+                            });
                         break;
                     case 'Widget':
                         break;

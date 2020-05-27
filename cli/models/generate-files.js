@@ -1,10 +1,26 @@
 const fs = require('fs');
-
+const {convertToFileName} = require('./file-tools')
 exports.generateThemeFiles = (themeConfigFile) => {
     generateBasicTemplateFiles();
     generateFunctionsFile(themeConfigFile);
     generateStyleFile(themeConfigFile);
 };
+
+exports.generateTemplateFile = (templateName) => {
+    const fileName = convertToFileName(templateName) + '-template.php';
+    fs.writeFile(fileName,
+        `<?php
+/*
+ * Template Name: ${templateName}
+ */
+get_header();
+get_footer();`
+        , function (err) {
+            if (err) throw err;
+            console.log('Template File ' + templateName + ' generated'.green);
+        });
+    console.log(fileName);
+}
 
 function generateStyleFile(themeConfigFile) {
     fs.writeFile('style.css',
