@@ -4,6 +4,7 @@ exports.generateThemeFiles = (themeConfigFile) => {
     generateBasicTemplateFiles();
     generateFunctionsFile(themeConfigFile);
     generateStyleFile(themeConfigFile);
+    generatePostTypeImporter();
 };
 
 exports.generateTemplateFile = (templateName) => {
@@ -22,6 +23,19 @@ get_footer();`
     console.log(fileName);
 }
 
+function generatePostTypeImporter() {
+    fs.mkdir('post-types/', {recursive: true}, (err) => {
+        if (err) throw err;
+        console.log('post-types folder generated'.green);
+        fs.writeFile('post-types/theme-post-types.php',
+            `<?php`
+            , function (err) {
+                if (err) throw err;
+                console.log('theme-post-types.php generated'.green);
+            });
+    });
+}
+
 function generateStyleFile(themeConfigFile) {
     fs.writeFile('style.css',
         `/*
@@ -38,17 +52,20 @@ function generateStyleFile(themeConfigFile) {
     */`
         , function (err) {
             if (err) throw err;
-            console.log('Archive file: archive.php generated'.green);
+            console.log('style.css generated'.green);
         });
 }
 
 function generateFunctionsFile(themeConfigFile) {
     fs.writeFile('functions.php',
         `<?php
-require_once __DIR__ . '/includes/theme-setup.php';`
+// Include basic theme setup
+require_once __DIR__ . '/includes/theme-setup.php';
+// Include importer for custom post types
+require_once __DIR__ . '/post-types/theme-post-types.php';`
         , function (err) {
             if (err) throw err;
-            console.log('Archive file: archive.php generated'.green);
+            console.log('functions.php generated'.green);
         });
     fs.mkdir('includes/', {recursive: true}, (err) => {
         if (err) throw err;
@@ -59,7 +76,7 @@ require_once __DIR__ . '/includes/theme-setup.php';`
         generateThemeSetupFile(themeConfigFile),
         function (err) {
             if (err) throw err;
-            console.log('Archive file: archive.php generated'.green);
+            console.log('theme-setup.php generated'.green);
         });
 
 }
@@ -101,7 +118,7 @@ function generateBasicTemplateFiles() {
         `This directory should contain translation files for your theme`
         , function (err) {
             if (err) throw err;
-            console.log('Template Part get-post.php generated'.green);
+            console.log('README.txt file in languages generated'.green);
         });
 
 
@@ -160,7 +177,7 @@ endif;
 <?php get_footer(); ?>`
         , function (err) {
             if (err) throw err;
-            console.log('Archive  Posts file: archive.php generated'.green);
+            console.log('Category Posts file: category.php generated'.green);
         });
 
     fs.writeFile('page.php',
