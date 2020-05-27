@@ -1,3 +1,4 @@
+const {getFunctionsFile} = require('./file-tools');
 exports.createCustomPostType = (data) => {
-    console.log(data);
+    getFunctionsFile(data);
 }
