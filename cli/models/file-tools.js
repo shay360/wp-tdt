@@ -12,17 +12,3 @@ exports.convertToFileName = (value) => {
 exports.functionsHasCustomPostTypesImport = (functionsContent) => {
     return functionsContent.search('./includes/theme-post-types.php') < 0;
 }
-
-exports.createThemePostTypesImporter = () => {
-    fs.mkdir('post-types/', {recursive: true}, (err) => {
-        if (err) throw err;
-        console.log('post-types folder generated'.green);
-        fs.writeFile('post-types/theme-post-types.php',
-            ``
-            , function (err) {
-                if (err) throw err;
-                console.log('theme-post-types.php generated'.green);
-            });
-    });
-
-}

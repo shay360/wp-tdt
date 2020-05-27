@@ -1,28 +1,23 @@
 const fs = require('fs');
 const colors = require('colors');
-const {createThemePostTypesImporter, functionsHasCustomPostTypesImport} = require('./file-tools');
+
 exports.createCustomPostType = (data) => {
     const customPostTypeData = data;
     fs.readFile('functions.php', function read(err, data) {
         if (err) throw err;
-        if (functionsHasCustomPostTypesImport(data.toString())) {
-            createThemePostTypesImporter();
-            fs.appendFile('functions.php', '\nrequire_once __DIR__ . \'/includes/theme-post-types.php\';', (err) => {
-                if (err) throw err;
-                console.log('functions.php updated successfully'.green);
-            });
-        } else {
-            fs.readFile('./post-types/theme-post-types.php', function read(err, data) {
-                if (err) throw err;
-                let fileContent = data.toString();
-                console.log(fileContent);
-                const cptSingular = customPostTypeData.post_type_singular;
-                const cptPlural = customPostTypeData.post_type_plural;
-                const cptDescription = customPostTypeData.post_type_description;
-                const cptTextDomain = customPostTypeData.post_type_text_domain;
-                const cptSupports = `[${customPostTypeData.supports.toString()}]`;
-                const fileName = cptSingular + '-post-type.php';
-                const cptArgs = `[
+        fs.readFile('./post-types/theme-post-types.php', function read(err, data) {
+            if (err) throw err;
+            let fileContent = data.toString();
+            const cptSingular = customPostTypeData.post_type_singular;
+            const cptPlural = customPostTypeData.post_type_plural;
+            const cptDescription = customPostTypeData.post_type_description;
+            const cptTextDomain = customPostTypeData.post_type_text_domain;
+            // customPostTypeData.supports
+            const cptSupports = `[
+                
+                ]`;
+            const fileName = cptSingular + '-post-type.php';
+            const cptArgs = `[
                 \t\t'label' => __( '${cptSingular}', '${cptTextDomain}' ),
                 \t\t'description' => __( '${cptDescription}', '${cptTextDomain}' ),
                 \t\t'labels' => $labels,
@@ -42,7 +37,7 @@ exports.createCustomPostType = (data) => {
                 \t\t'publicly_queryable' => ${customPostTypeData.publicly_queryable},
                 \t\t'capability_type' => 'post',
                 ]`;
-                const labels = `[
+            const labels = `[
                 \t\t'name' => _x( '${cptSingular}', 'Post Type General Name', '${cptTextDomain}' ),
                 \t\t'singular_name' => _x( '${cptSingular}', 'Post Type Singular Name', '${cptTextDomain}' ),
                 \t\t'menu_name' => _x( '${cptPlural}', 'Admin Menu text', '${cptTextDomain}' ),
@@ -71,7 +66,7 @@ exports.createCustomPostType = (data) => {
                 \t\t'items_list_navigation' => __( '${cptPlural} list navigation', '${cptTextDomain}' ),
                 \t\t'filter_items_list' => __( 'Filter ${cptPlural} list', '${cptTextDomain}' ),
                 ]`;
-                const cptClassContent = `<?php
+            const cptClassContent = `<?php
                 
 class ${cptSingular}PostType {
 
@@ -84,15 +79,20 @@ class ${cptSingular}PostType {
         $args = ${cptArgs};
         register_post_type('${cptSingular}', $args);
     }
-}`;
-                fs.writeFile(`post-types/${fileName}`,
-                    cptClassContent
-                    , function (err) {
+}
+new ${cptSingular}PostType();`;
+
+            fs.writeFile(`post-types/${fileName}`,
+                cptClassContent
+                , function (err) {
+                    if (err) throw err;
+                    fs.appendFile('./post-types/theme-post-types.php', `\nrequire_once __DIR__ . '/${fileName}';`, (err) => {
                         if (err) throw err;
-                        console.log('Archive file: archive.php generated'.green);
+                        console.log('theme-post-types.php updated successfully'.green);
                     });
-            });
-        }
+                    console.log(`${fileName} generated`.green);
+                });
+        });
     });
 
 }
