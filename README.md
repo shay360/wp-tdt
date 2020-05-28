@@ -1,4 +1,5 @@
 # wp-tdt - Wordpress Theme Developer Tools
+## More nicer documentation coming soon
 > This tool came to standardize the WordPress template development process and all without compromising the freedom of the programmer.
 
 To start using tdt, open your bash inside the wp-content/themes directory.
@@ -29,7 +30,4 @@ The create command will let you generate new assets for your theme like page tem
 
 1. Template file
 2. CPT
-
-TODO
-* cli to create new archive: post name
-* cli to create new single post: post name
+3. Widget
