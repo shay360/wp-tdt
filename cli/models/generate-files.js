@@ -63,11 +63,17 @@ function generateFunctionsFile(themeConfigFile) {
 // Include basic theme setup
 require_once __DIR__ . '/includes/theme-setup.php';
 // Include importer for custom post types
-require_once __DIR__ . '/post-types/theme-post-types.php';`
+require_once __DIR__ . '/post-types/theme-post-types.php';
+// Include importer for widgets
+require_once __DIR__ . '/classes/widgets/theme-widgets.php';
+// Include importer for sidebars
+require_once __DIR__ . '/classes/sidebars/theme-sidebars.php';`
         , function (err) {
             if (err) throw err;
             console.log('functions.php generated'.green);
         });
+
+
     fs.mkdir('includes/', {recursive: true}, (err) => {
         if (err) throw err;
 
@@ -79,6 +85,42 @@ require_once __DIR__ . '/post-types/theme-post-types.php';`
             if (err) throw err;
             console.log('theme-setup.php generated'.green);
         });
+
+
+    fs.mkdir('classes/widgets/', {recursive: true}, (err) => {
+        if (err) throw err;
+        fs.writeFile('classes/widgets/theme-widgets.php',
+            `<?php`,
+            function (err) {
+                if (err) throw err;
+                console.log('theme-widgets.php generated'.green);
+            });
+    });
+
+
+    fs.mkdir('classes/sidebars/', {recursive: true}, (err) => {
+        if (err) throw err;
+        fs.writeFile('classes/sidebars/theme-sidebars.php',
+            `<?php
+function generateMainSidebar() {
+
+    register_sidebar( array(
+        'name'          => 'Main sidebar {id: main-sidebar}',
+        'id'            => 'main-sidebar',
+        'before_widget' => '<div class="sidebar">',
+        'after_widget'  => '</div>',
+        'before_title'  => '',
+        'after_title'   => '',
+    ) );
+
+}
+add_action( 'widgets_init', 'generateMainSidebar' );`,
+            function (err) {
+                if (err) throw err;
+                console.log('theme-sidebars.php generated'.green);
+            });
+    });
+
 
 }
 
@@ -109,22 +151,17 @@ new ThemeSetup();`;
 function generateBasicTemplateFiles() {
     fs.mkdir('languages', {recursive: true}, (err) => {
         if (err) throw err;
+        fs.writeFile('languages/README.txt',
+            `This directory should contain translation files for your theme`
+            , function (err) {
+                if (err) throw err;
+                console.log('README.txt file in languages generated'.green);
+            });
     });
     fs.mkdir('template-parts', {recursive: true}, (err) => {
         if (err) throw err;
-    });
-
-
-    fs.writeFile('languages/README.txt',
-        `This directory should contain translation files for your theme`
-        , function (err) {
-            if (err) throw err;
-            console.log('README.txt file in languages generated'.green);
-        });
-
-
-    fs.writeFile('template-parts/get-post.php',
-        `<?php
+        fs.writeFile('template-parts/get-post.php',
+            `<?php
 if ( have_posts() ):
 \twhile ( have_posts() ) : the_post();
 \t\tthe_post_thumbnail();
@@ -133,13 +170,13 @@ if ( have_posts() ):
 \tendwhile;
 endif;
 ?>`
-        , function (err) {
-            if (err) throw err;
-            console.log('Template Part get-post.php generated'.green);
-        });
+            , function (err) {
+                if (err) throw err;
+                console.log('Template Part get-post.php generated'.green);
+            });
 
-    fs.writeFile('template-parts/get-posts.php',
-        `<?php
+        fs.writeFile('template-parts/get-posts.php',
+            `<?php
 if ( have_posts() ):
 \twhile ( have_posts() ) : the_post();
 \t\tget_the_tag_list();
@@ -149,10 +186,12 @@ if ( have_posts() ):
 \tendwhile;
 endif;
 ?>`
-        , function (err) {
-            if (err) throw err;
-            console.log('Template Part get-posts.php generated'.green);
-        });
+            , function (err) {
+                if (err) throw err;
+                console.log('Template Part get-posts.php generated'.green);
+            });
+    });
+
 
     fs.writeFile('archive.php',
         `<?php get_header(); ?>

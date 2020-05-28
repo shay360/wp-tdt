@@ -9,6 +9,6 @@ exports.convertToFileName = (value) => {
     return value.replace(' ', '-').toLowerCase();
 }
 
-exports.functionsHasCustomPostTypesImport = (functionsContent) => {
-    return functionsContent.search('./includes/theme-post-types.php') < 0;
+exports.isImportExists = (targetContent, searchFor) => {
+    return targetContent.search(searchFor) > 0;
 }

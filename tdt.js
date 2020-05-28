@@ -4,7 +4,7 @@ const commander = require('commander');
 const program = new commander.Command();
 const colors = require('colors');
 const inquirer = require('inquirer');
-const {createCustomPostType} = require('./cli/models/create-assets');
+const {createCustomPostType, createThemeWidget} = require('./cli/models/create-assets');
 const {
     createNewConfigFileWithThemeHeadersOnly,
     setNewThemeSupportSectionInConfigurationFile,
@@ -124,6 +124,15 @@ program.command('create')
                             });
                         break;
                     case 'Widget':
+                        inquirer
+                            .prompt([
+                                {type: 'input', name: 'widget_title', message: "Widget Title"},
+                                {type: 'input', name: 'widget_description', message: "Widget Description"},
+                                {type: 'input', name: 'widget_text_domain', message: "Widget Text Domain"},
+                            ])
+                            .then(answers => {
+                                createThemeWidget(answers);
+                            });
                         break;
                     case 'Archive':
                         break;
