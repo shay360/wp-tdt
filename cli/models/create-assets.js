@@ -71,19 +71,19 @@ exports.createCustomPostType = (data) => {
                 ]`;
             const cptClassContent = `<?php
                 
-class ${cptSingular}PostType {
+class ${cptSingular.charAt(0).toUpperCase() + name.slice(1)}PostType {
 
     public function __construct() {
         add_action('init', [$this, 'create${cptSingular}CPT'], 0);
     }
     
-     public function create${cptSingular}CPT() {
+     public function create${cptSingular.charAt(0).toUpperCase() + name.slice(1)}CPT() {
         $labels = ${labels};
         $args = ${cptArgs};
         register_post_type('${cptSingular}', $args);
     }
 }
-new ${cptSingular}PostType();`;
+new ${cptSingular.charAt(0).toUpperCase() + name.slice(1)}PostType();`;
 
             fs.writeFile(`post-types/${fileName}`,
                 cptClassContent
