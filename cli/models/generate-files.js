@@ -73,6 +73,16 @@ require_once __DIR__ . '/classes/sidebars/theme-sidebars.php';`
             console.log('functions.php generated'.green);
         });
 
+    fs.writeFile('sidebar.php',
+        `<?php if(!dynamic_sidebar('sidebar-page')): ?>
+    <h4 role="heading">This sidebar needs widgets</h4>
+    <p>Drug and drop widgets from Appearance->widgets</p>
+<?php endif; ?>`
+        , function (err) {
+            if (err) throw err;
+            console.log('sidebar.php generated'.green);
+            console.log('You use main sidebar get_sidebar(\'main-sidebar\')'.cyan);
+        });
 
     fs.mkdir('includes/', {recursive: true}, (err) => {
         if (err) throw err;
@@ -102,22 +112,37 @@ require_once __DIR__ . '/classes/sidebars/theme-sidebars.php';`
         if (err) throw err;
         fs.writeFile('classes/sidebars/theme-sidebars.php',
             `<?php
-function generateMainSidebar() {
-
-    register_sidebar( array(
-        'name'          => 'Main sidebar {id: main-sidebar}',
-        'id'            => 'main-sidebar',
-        'before_widget' => '<div class="sidebar">',
-        'after_widget'  => '</div>',
-        'before_title'  => '',
-        'after_title'   => '',
-    ) );
-
-}
-add_action( 'widgets_init', 'generateMainSidebar' );`,
+require_once __DIR__ . '/ThemeSidebar.php';`,
             function (err) {
                 if (err) throw err;
                 console.log('theme-sidebars.php generated'.green);
+                fs.writeFile('classes/sidebars/ThemeSidebar.php',
+                    `<?php
+
+class ThemeSidebars {
+    public function __construct() {
+        add_action('widgets_init', [$this, 'generateMainSidebar']);
+    }
+
+    function generateMainSidebar() {
+
+        register_sidebar(array(
+            'name' => 'Main sidebar {id: main-sidebar}',
+            'id' => 'main-sidebar',
+            'before_widget' => '<div class="sidebar">',
+            'after_widget' => '</div>',
+            'before_title' => '',
+            'after_title' => '',
+        ));
+
+    }
+}
+
+new ThemeSidebars();`,
+                    function (err) {
+                        if (err) throw err;
+                        console.log('ThemeSidebar.php generated'.green);
+                    });
             });
     });
 

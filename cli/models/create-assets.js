@@ -2,6 +2,7 @@ const fs = require('fs');
 const colors = require('colors');
 const {isImportExists} = require('./file-tools');
 const {toCamelCase, pascalCase} = require('./generic-tools');
+
 exports.createCustomPostType = (data) => {
     const customPostTypeData = data;
     fs.readFile('functions.php', function read(err, data) {
@@ -103,8 +104,31 @@ new ${cptSingular.charAt(0).toUpperCase() + cptSingular.slice(1)}PostType();`;
                 });
         });
     });
+};
 
-}
+exports.createSinglePage = (data) => {
+    const filename = data.post_type;
+    fs.writeFile(`single-${filename}.php`,
+        `<?php get_header(); ?>
+<?php get_template_part( 'template-parts/get', 'post' ); ?>
+<?php get_footer(); ?>`
+        , function (err) {
+            if (err) throw err;
+            console.log(`single-${filename}.php generated`.green);
+        });
+};
+
+exports.createArchivePage = (data) => {
+    const filename = data.post_type;
+    fs.writeFile(`archive-${filename}.php`,
+        `<?php get_header(); ?>
+<?php get_template_part( 'template-parts/get', 'posts' ); ?>
+<?php get_footer(); ?>`
+        , function (err) {
+            if (err) throw err;
+            console.log(`archive-${filename}.php generated`.green);
+        });
+};
 
 exports.createThemeWidget = (data) => {
     const widgetData = data;
@@ -207,4 +231,4 @@ add_action( 'widgets_init', 'register_${className}_widget' );`;
                 });
         });
     });
-}
+};

@@ -4,7 +4,7 @@ const commander = require('commander');
 const program = new commander.Command();
 const colors = require('colors');
 const inquirer = require('inquirer');
-const {createCustomPostType, createThemeWidget} = require('./cli/models/create-assets');
+const {createCustomPostType, createThemeWidget, createArchivePage, createSinglePage} = require('./cli/models/create-assets');
 const {
     createNewConfigFileWithThemeHeadersOnly,
     setNewThemeSupportSectionInConfigurationFile,
@@ -96,7 +96,6 @@ program.command('generate')
     .action(() => {
         console.log('Basic file generation started'.blue);
         generateThemeBasicFiles();
-        console.log('Basic file generation finished'.yellow);
     });
 
 
@@ -135,8 +134,24 @@ program.command('create')
                             });
                         break;
                     case 'Archive':
+                        console.log(`For Example: article / team-member`.red);
+                        inquirer
+                            .prompt([
+                                {type: 'input', name: 'post_type', message: "Create archive page to post type"},
+                            ])
+                            .then(answers => {
+                                createArchivePage(answers);
+                            });
                         break;
                     case 'Single':
+                        console.log(`For Example: article / team-member`.red);
+                        inquirer
+                            .prompt([
+                                {type: 'input', name: 'post_type', message: "Create single page to post type"},
+                            ])
+                            .then(answers => {
+                                createSinglePage(answers);
+                            });
                         break;
                     case 'CPT':
                         inquirer
