@@ -31,3 +31,5 @@ The create command will let you generate new assets for your theme like page tem
 1. Template file
 2. CPT
 3. Widget
+4. Archive
+5. Single
