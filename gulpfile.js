@@ -24,7 +24,7 @@ function scssTask() {
         .pipe(sass().on('error', sass.logError))
         .pipe(sass({outputStyle: 'compressed'}).on('error', sass.logError))
         .pipe(sourcemaps.write('./maps'))
-        .pipe(gulp.dest('./dist'));
+        .pipe(gulp.dest('dist'));
 }
 
 function watchFiles() {
