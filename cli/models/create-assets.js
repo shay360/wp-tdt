@@ -14,7 +14,7 @@ exports.createCustomPostType = (data) => {
             const cptPlural = customPostTypeData.post_type_plural;
             const cptDescription = customPostTypeData.post_type_description;
             const cptTextDomain = customPostTypeData.post_type_text_domain;
-
+            const classPrefix = pascalCase(toCamelCase(cptSingular));
             let cptSupports = `[`;
             customPostTypeData.supports.forEach(support => {
                 cptSupports += `'${support}'`;
@@ -73,19 +73,19 @@ exports.createCustomPostType = (data) => {
                 ]`;
             const cptClassContent = `<?php
                 
-class ${cptSingular.charAt(0).toUpperCase() + cptSingular.slice(1)}PostType {
+class ${classPrefix}PostType {
 
     public function __construct() {
-        add_action('init', [$this, 'create${cptSingular}CPT'], 0);
+        add_action('init', [$this, 'create${classPrefix}CPT'], 0);
     }
     
-     public function create${cptSingular.charAt(0).toUpperCase() + cptSingular.slice(1)}CPT() {
+     public function create${classPrefix}CPT() {
         $labels = ${labels};
         $args = ${cptArgs};
         register_post_type('${cptSingular}', $args);
     }
 }
-new ${cptSingular.charAt(0).toUpperCase() + cptSingular.slice(1)}PostType();`;
+new ${classPrefix}PostType();`;
 
             fs.writeFile(`post-types/${fileName}`,
                 cptClassContent
