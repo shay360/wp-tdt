@@ -18,7 +18,7 @@ function jsTask() {
 }
 
 function scssTask() {
-    return gulp.src('./src/css/theme.scss')
+    return gulp.src('./src/scss/theme.scss')
         .pipe(sass.sync().on('error', sass.logError))
         .pipe(sourcemaps.init())
         .pipe(sass().on('error', sass.logError))
