@@ -108,7 +108,8 @@ program.command('create')
                     type: 'list',
                     name: 'new_asset',
                     message: 'Create New Asset',
-                    choices: ['Template File', 'Archive', 'Single', 'Widget', 'CPT', 'Taxonomy', 'Dashboard Widget', 'Menu', 'Options Page', 'Sidebar']
+                    choices: ['Template File', 'Archive', 'Single', 'Widget', 'CPT']
+                    // 'Taxonomy', 'Dashboard Widget', 'Menu', 'Options Page', 'Sidebar'
                 }
             ])
             .then(answers => {
