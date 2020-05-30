@@ -396,6 +396,13 @@ exports.generateTemplateFile = (templateName) => {
  * Template Name: ${templateName}
  */
 get_header();
+if ( have_posts() ):
+\twhile ( have_posts() ) : the_post();
+\t\tthe_post_thumbnail();
+\t\tthe_title();
+\t\tthe_content();
+\tendwhile;
+endif;
 get_footer();`
         , function (err) {
             if (err) throw err;

@@ -26,8 +26,8 @@ exports.pascalCase = (str) => {
 /**
  * UPPERCASE first char of each word.
  */
-function properCase(str) {
-    return lowerCase(str).replace(/^\w|\s\w/g, this.upperCase);
+exports.properCase = (str) => {
+    return this.lowerCase(str).replace(/^\w|\s\w/g, this.upperCase);
 }
 
 /**

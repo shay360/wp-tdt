@@ -1,7 +1,7 @@
 const fs = require('fs');
 const colors = require('colors');
 const {isImportExists} = require('./file-tools');
-const {toCamelCase, pascalCase} = require('./generic-tools');
+const {toCamelCase, pascalCase, properCase} = require('./generic-tools');
 
 exports.createCustomPostType = (data) => {
     const customPostTypeData = data;
@@ -23,7 +23,7 @@ exports.createCustomPostType = (data) => {
             cptSupports = cptSupports.replace(/''/g, '\', \'');
             const fileName = cptSingular + '-post-type.php';
             const cptArgs = `[
-                \t\t'label' => __( '${cptSingular}', '${cptTextDomain}' ),
+                \t\t'label' => __( '${properCase(cptSingular.replace('-', ' '))}', '${cptTextDomain}' ),
                 \t\t'description' => __( '${cptDescription}', '${cptTextDomain}' ),
                 \t\t'labels' => $labels,
                 \t\t'menu_icon' => '',
@@ -43,33 +43,33 @@ exports.createCustomPostType = (data) => {
                 \t\t'capability_type' => 'post',
                 ]`;
             const labels = `[
-                \t\t'name' => _x( '${cptSingular}', 'Post Type General Name', '${cptTextDomain}' ),
-                \t\t'singular_name' => _x( '${cptSingular}', 'Post Type Singular Name', '${cptTextDomain}' ),
-                \t\t'menu_name' => _x( '${cptPlural}', 'Admin Menu text', '${cptTextDomain}' ),
-                \t\t'name_admin_bar' => _x( '${cptSingular}', 'Add New on Toolbar', '${cptTextDomain}' ),
-                \t\t'archives' => __( '${cptSingular} Archives', '${cptTextDomain}' ),
-                \t\t'attributes' => __( '${cptSingular} Attributes', '${cptTextDomain}' ),
-                \t\t'parent_item_colon' => __( 'Parent ${cptSingular}:', '${cptTextDomain}' ),
-                \t\t'all_items' => __( 'All ${cptPlural}', '${cptTextDomain}' ),
-                \t\t'add_new_item' => __( 'Add New ${cptSingular}', '${cptTextDomain}' ),
+                \t\t'name' => _x( '${properCase(cptSingular.replace('-', ' '))}', 'Post Type General Name', '${cptTextDomain}' ),
+                \t\t'singular_name' => _x( '${properCase(cptSingular.replace('-', ' '))}', 'Post Type Singular Name', '${cptTextDomain}' ),
+                \t\t'menu_name' => _x( '${properCase(cptPlural.replace('-', ' '))}', 'Admin Menu text', '${cptTextDomain}' ),
+                \t\t'name_admin_bar' => _x( '${properCase(cptSingular.replace('-', ' '))}', 'Add New on Toolbar', '${cptTextDomain}' ),
+                \t\t'archives' => __( '${properCase(cptSingular.replace('-', ' '))} Archives', '${cptTextDomain}' ),
+                \t\t'attributes' => __( '${properCase(cptSingular.replace('-', ' '))} Attributes', '${cptTextDomain}' ),
+                \t\t'parent_item_colon' => __( 'Parent ${properCase(cptSingular.replace('-', ' '))}:', '${cptTextDomain}' ),
+                \t\t'all_items' => __( 'All ${properCase(cptPlural.replace('-', ' '))}', '${cptTextDomain}' ),
+                \t\t'add_new_item' => __( 'Add New ${properCase(cptSingular.replace('-', ' '))}', '${cptTextDomain}' ),
                 \t\t'add_new' => __( 'Add New', '${cptTextDomain}' ),
-                \t\t'new_item' => __( 'New ${cptSingular}', '${cptTextDomain}' ),
-                \t\t'edit_item' => __( 'Edit ${cptSingular}', '${cptTextDomain}' ),
-                \t\t'update_item' => __( 'Update ${cptSingular}', '${cptTextDomain}' ),
-                \t\t'view_item' => __( 'View ${cptSingular}', '${cptTextDomain}' ),
-                \t\t'view_items' => __( 'View ${cptPlural}', '${cptTextDomain}' ),
-                \t\t'search_items' => __( 'Search ${cptSingular}', '${cptTextDomain}' ),
+                \t\t'new_item' => __( 'New ${properCase(cptSingular.replace('-', ' '))}', '${cptTextDomain}' ),
+                \t\t'edit_item' => __( 'Edit ${properCase(cptSingular.replace('-', ' '))}', '${cptTextDomain}' ),
+                \t\t'update_item' => __( 'Update ${properCase(cptSingular.replace('-', ' '))}', '${cptTextDomain}' ),
+                \t\t'view_item' => __( 'View ${properCase(cptSingular.replace('-', ' '))}', '${cptTextDomain}' ),
+                \t\t'view_items' => __( 'View ${properCase(cptPlural.replace('-', ' '))}', '${cptTextDomain}' ),
+                \t\t'search_items' => __( 'Search ${properCase(cptSingular.replace('-', ' '))}', '${cptTextDomain}' ),
                 \t\t'not_found' => __( 'Not found', '${cptTextDomain}' ),
                 \t\t'not_found_in_trash' => __( 'Not found in Trash', '${cptTextDomain}' ),
                 \t\t'featured_image' => __( 'Featured Image', '${cptTextDomain}' ),
                 \t\t'set_featured_image' => __( 'Set featured image', '${cptTextDomain}' ),
                 \t\t'remove_featured_image' => __( 'Remove featured image', '${cptTextDomain}' ),
                 \t\t'use_featured_image' => __( 'Use as featured image', '${cptTextDomain}' ),
-                \t\t'insert_into_item' => __( 'Insert into ${cptSingular}', '${cptTextDomain}' ),
-                \t\t'uploaded_to_this_item' => __( 'Uploaded to this ${cptSingular}', '${cptTextDomain}' ),
-                \t\t'items_list' => __( '${cptPlural} list', '${cptTextDomain}' ),
-                \t\t'items_list_navigation' => __( '${cptPlural} list navigation', '${cptTextDomain}' ),
-                \t\t'filter_items_list' => __( 'Filter ${cptPlural} list', '${cptTextDomain}' ),
+                \t\t'insert_into_item' => __( 'Insert into ${properCase(cptSingular.replace('-', ' '))}', '${cptTextDomain}' ),
+                \t\t'uploaded_to_this_item' => __( 'Uploaded to this ${properCase(cptSingular.replace('-', ' '))}', '${cptTextDomain}' ),
+                \t\t'items_list' => __( '${properCase(cptPlural.replace('-', ' '))} list', '${cptTextDomain}' ),
+                \t\t'items_list_navigation' => __( '${properCase(cptPlural.replace('-', ' '))} list navigation', '${cptTextDomain}' ),
+                \t\t'filter_items_list' => __( 'Filter ${properCase(cptPlural.replace('-', ' '))} list', '${cptTextDomain}' ),
                 ]`;
             const cptClassContent = `<?php
                 
