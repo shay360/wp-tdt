@@ -105,7 +105,9 @@ new ${classPrefix}PostType();`;
         });
     });
 };
+exports.createSidebar = (data) => {
 
+}
 exports.createSinglePage = (data) => {
     const filename = data.post_type;
     fs.writeFile(`single-${filename}.php`,

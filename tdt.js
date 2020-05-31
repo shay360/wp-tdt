@@ -62,6 +62,12 @@ program.command('support')
                 },
                 {
                     type: 'list',
+                    name: 'custom-header',
+                    message: 'custom-header',
+                    choices: ['true', 'false'],
+                },
+                {
+                    type: 'list',
                     name: 'custom-background',
                     message: 'custom-background',
                     choices: ['true', 'false'],
@@ -108,8 +114,8 @@ program.command('create')
                     type: 'list',
                     name: 'new_asset',
                     message: 'Create New Asset',
-                    choices: ['Template File', 'Archive', 'Single', 'Widget', 'CPT']
-                    // 'Taxonomy', 'Dashboard Widget', 'Menu', 'Options Page', 'Sidebar'
+                    choices: ['Template File', 'Archive', 'Single', 'Widget', 'CPT', 'Sidebar']
+                    // 'Taxonomy', 'Dashboard Widget', 'Menu', 'Options Page',
                 }
             ])
             .then(answers => {
@@ -247,6 +253,14 @@ program.command('create')
                     case 'Options Page':
                         break;
                     case 'Sidebar':
+                        inquirer
+                            .prompt([
+                                {type: 'input', name: 'sidebar_name', message: "Sidebar name"},
+                                {type: 'input', name: 'sidebar_id', message: "Sidebar id"}
+                            ])
+                            .then(answers => {
+                                createSidebar(answers);
+                            });
                         break;
                 }
             })
