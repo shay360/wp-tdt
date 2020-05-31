@@ -546,12 +546,26 @@ class ThemeSetup {
 \tpublic function addThemeSupport() {`;
 
     for (const support in themeConfigFile.theme_support) {
+        console.log(support);
         if (themeConfigFile.theme_support[support]) {
-            finalString += `\t\tadd_theme_support( '${support}' );\n`;
+            if (support === 'html-5') {
+                finalString += `\t\tadd_theme_support( '${support}', ['comment-list', 'comment-form', 'search-form', 'gallery', 'caption', 'style', 'script'] );\n`;
+            } else if (support === 'custom-logo') {
+                finalString += `\t\tadd_theme_support( '${support}', ['height' => 20, 'width' => 100, 'flex-height' => true, 'flex-width'  => true, 'header-text' => ['site-title', 'site-description']] );\n`;
+            } else if (support === 'custom-background') {
+                finalString += `\t\tadd_theme_support( '${support}', ['default-image' => '', 'default-preset' => 'default', 'default-position-x' => 'left', 'default-position-y' => 'top', 'default-size' => 'auto', 'default-repeat' => 'repeat', 'default-attachment' => 'scroll', 'default-color' => '', 'wp-head-callback' => '_custom_background_cb', 'admin-head-callback' => '', 'admin-preview-callback' => ''] );\n`;
+            } else if (support === 'custom-header') {
+                finalString += `\t\tadd_theme_support( '${support}', ['default-image' => '', 'random-default' => false, 'width' => 0, 'height' => 0, 'flex-height' => false, 'flex-width' => false, 'default-text-color' => '', 'header-text' => true, 'uploads' => true, 'wp-head-callback' => '', 'admin-head-callback' => '', 'admin-preview-callback' => '', 'video' => false, 'video-active-callback' => 'is_front_page'] );\n`;
+            } else if (support === 'post-formats') {
+                finalString += `\t\tadd_theme_support( '${support}', ['aside', 'gallery', 'link', 'image', 'quote', 'status', 'video', 'audio', 'chat'] );\n`;
+            }else {
+                finalString += `\t\tadd_theme_support( '${support}' );\n`;
+            }
+
         }
     }
 
-    finalString += `}
+    finalString += `\t}
 }
 new ThemeSetup();`;
 

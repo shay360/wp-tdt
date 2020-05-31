@@ -106,6 +106,53 @@ new ${classPrefix}PostType();`;
     });
 };
 
+exports.createSidebar = (data) => {
+    let fileName = data.sidebar_name;
+    fileName = properCase(fileName).replace(/ /g, '');
+    fs.writeFile(`classes/sidebars/${fileName}.php`,
+        `<?php
+
+class ${fileName} {
+    public function __construct() {
+        add_action('widgets_init', [$this, 'generate${fileName}']);
+    }
+
+    function generate${fileName}() {
+
+        register_sidebar(array(
+            'name' => '${properCase(data.sidebar_name)}',
+            'id' => '${data.sidebar_id}',
+            'before_widget' => '<div class="sidebar">',
+            'after_widget' => '</div>',
+            'before_title' => '',
+            'after_title' => '',
+        ));
+
+    }
+}
+
+new ${fileName}();`,
+        function (err) {
+            if (err) throw err;
+            console.log(`${fileName}.php generated`.green);
+
+            fs.readFile('./classes/sidebars/theme-sidebars.php', function read(err, data) {
+                if (err) throw err;
+                let fileContent = data.toString();
+                let className = fileName;
+                if (!isImportExists(fileContent, `require_once __DIR__ . '/${className}.php';`)) {
+                    fs.appendFile('./classes/sidebars/theme-sidebars.php', `\nrequire_once __DIR__ . '/${className}.php';`, (err) => {
+                        if (err) throw err;
+                        console.log('theme-sidebars.php updated successfully'.green);
+                    });
+                }
+                console.log(`${className} generated`.green);
+            });
+
+
+        });
+
+}
 exports.createSinglePage = (data) => {
     const filename = data.post_type;
     fs.writeFile(`single-${filename}.php`,

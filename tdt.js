@@ -4,7 +4,7 @@ const commander = require('commander');
 const program = new commander.Command();
 const colors = require('colors');
 const inquirer = require('inquirer');
-const {createCustomPostType, createThemeWidget, createArchivePage, createSinglePage} = require('./cli/models/create-assets');
+const {createCustomPostType, createThemeWidget, createArchivePage, createSinglePage, createSidebar} = require('./cli/models/create-assets');
 const {
     createNewConfigFileWithThemeHeadersOnly,
     setNewThemeSupportSectionInConfigurationFile,
@@ -62,6 +62,12 @@ program.command('support')
                 },
                 {
                     type: 'list',
+                    name: 'custom-header',
+                    message: 'custom-header',
+                    choices: ['true', 'false'],
+                },
+                {
+                    type: 'list',
                     name: 'custom-background',
                     message: 'custom-background',
                     choices: ['true', 'false'],
@@ -90,7 +96,6 @@ program.command('support')
             })
     });
 
-
 program.command('generate')
     .description('Generate the basic new theme files include core template files, functions and styles')
     .action(() => {
@@ -108,8 +113,8 @@ program.command('create')
                     type: 'list',
                     name: 'new_asset',
                     message: 'Create New Asset',
-                    choices: ['Template File', 'Archive', 'Single', 'Widget', 'CPT']
-                    // 'Taxonomy', 'Dashboard Widget', 'Menu', 'Options Page', 'Sidebar'
+                    choices: ['Template File', 'Archive', 'Single', 'Widget', 'CPT', 'Sidebar']
+                    // 'Taxonomy', 'Dashboard Widget', 'Menu', 'Options Page',
                 }
             ])
             .then(answers => {
@@ -247,6 +252,14 @@ program.command('create')
                     case 'Options Page':
                         break;
                     case 'Sidebar':
+                        inquirer
+                            .prompt([
+                                {type: 'input', name: 'sidebar_name', message: "Sidebar name (Back-end Title)"},
+                                {type: 'input', name: 'sidebar_id', message: "Sidebar id"}
+                            ])
+                            .then(answers => {
+                                createSidebar(answers);
+                            });
                         break;
                 }
             })
