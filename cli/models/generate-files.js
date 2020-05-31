@@ -454,7 +454,9 @@ require_once __DIR__ . '/post-types/theme-post-types.php';
 // Include importer for widgets
 require_once __DIR__ . '/classes/widgets/theme-widgets.php';
 // Include importer for sidebars
-require_once __DIR__ . '/classes/sidebars/theme-sidebars.php';`
+require_once __DIR__ . '/classes/sidebars/theme-sidebars.php';
+// Include importer for dashboard widgets
+require_once __DIR__ . '/classes/dashboard-widgets/theme-dashboard-widgets.php';`
         , function (err) {
             if (err) throw err;
             console.log('functions.php generated'.green);
@@ -531,7 +533,15 @@ new ThemeSidebars();`,
             });
     });
 
-
+    fs.mkdir('classes/dashboard-widgets/', {recursive: true}, (err) => {
+        if (err) throw err;
+        fs.writeFile('classes/dashboard-widgets/theme-dashboard-widgets.php',
+            `<?php`,
+            function (err) {
+                if (err) throw err;
+                console.log('theme-dashboard-widgets.php generated'.green);
+            });
+    });
 }
 
 function generateThemeSetupFile(themeConfigFile) {
@@ -558,10 +568,9 @@ class ThemeSetup {
                 finalString += `\t\tadd_theme_support( '${support}', ['default-image' => '', 'random-default' => false, 'width' => 0, 'height' => 0, 'flex-height' => false, 'flex-width' => false, 'default-text-color' => '', 'header-text' => true, 'uploads' => true, 'wp-head-callback' => '', 'admin-head-callback' => '', 'admin-preview-callback' => '', 'video' => false, 'video-active-callback' => 'is_front_page'] );\n`;
             } else if (support === 'post-formats') {
                 finalString += `\t\tadd_theme_support( '${support}', ['aside', 'gallery', 'link', 'image', 'quote', 'status', 'video', 'audio', 'chat'] );\n`;
-            }else {
+            } else {
                 finalString += `\t\tadd_theme_support( '${support}' );\n`;
             }
-
         }
     }
 

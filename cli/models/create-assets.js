@@ -165,6 +165,49 @@ exports.createSinglePage = (data) => {
         });
 };
 
+exports.createDashboardWidget = (data) => {
+    const widgetTitle = properCase(data.dashboard_widget_name);
+    const widgetID = data.dashboard_widget_name.toLowerCase().replace(/ /g, '-');
+    const widgetClassName = widgetTitle.replace(/ /g, '') + 'DashboardWidget';
+    fs.writeFile(`./classes/dashboard-widgets/${widgetClassName}.php`,
+        `<?php
+
+class ${widgetClassName} {
+    public function __construct() {
+        add_action('wp_dashboard_setup', [$this, 'add${widgetClassName}']);
+
+    }
+
+    function add${widgetClassName}() {
+        wp_add_dashboard_widget(
+            '${widgetID}',
+            '${widgetTitle}',
+            [$this, 'generateDashboardContent']
+        );
+    }
+
+    function generateDashboardContent() {
+        echo "Place Your Widget Code";
+    }
+}
+
+new ${widgetClassName}();`
+        , function (err) {
+            if (err) throw err;
+            console.log(`${widgetClassName}.php generated`.green);
+            fs.readFile('./classes/dashboard-widgets/theme-dashboard-widgets.php', function read(err, data) {
+                if (err) throw err;
+                let fileContent = data.toString();
+                if (!isImportExists(fileContent, `require_once __DIR__ . '/${widgetClassName}.php';`)) {
+                    fs.appendFile('./classes/dashboard-widgets/theme-dashboard-widgets.php', `\nrequire_once __DIR__ . '/${widgetClassName}.php';`, (err) => {
+                        if (err) throw err;
+                        console.log('theme-dashboard-widgets.php updated successfully'.green);
+                    });
+                }
+            });
+        });
+}
+
 exports.createArchivePage = (data) => {
     const filename = data.post_type;
     fs.writeFile(`archive-${filename}.php`,

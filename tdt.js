@@ -4,7 +4,14 @@ const commander = require('commander');
 const program = new commander.Command();
 const colors = require('colors');
 const inquirer = require('inquirer');
-const {createCustomPostType, createThemeWidget, createArchivePage, createSinglePage, createSidebar} = require('./cli/models/create-assets');
+const {
+    createCustomPostType,
+    createThemeWidget,
+    createArchivePage,
+    createSinglePage,
+    createSidebar,
+    createDashboardWidget
+} = require('./cli/models/create-assets');
 const {
     createNewConfigFileWithThemeHeadersOnly,
     setNewThemeSupportSectionInConfigurationFile,
@@ -113,8 +120,8 @@ program.command('create')
                     type: 'list',
                     name: 'new_asset',
                     message: 'Create New Asset',
-                    choices: ['Template File', 'Archive', 'Single', 'Widget', 'CPT', 'Sidebar']
-                    // 'Taxonomy', 'Dashboard Widget', 'Menu', 'Options Page',
+                    choices: ['Template File', 'Archive', 'Single', 'Widget', 'CPT', 'Sidebar', 'Dashboard Widget']
+                    // 'Taxonomy', , 'Menu', 'Options Page',
                 }
             ])
             .then(answers => {
@@ -246,6 +253,13 @@ program.command('create')
                     case 'Taxonomy':
                         break;
                     case 'Dashboard Widget':
+                        inquirer
+                            .prompt([
+                                {type: 'input', name: 'dashboard_widget_name', message: "Dashboard Widget Name"}
+                            ])
+                            .then(answers => {
+                                createDashboardWidget(answers);
+                            });
                         break;
                     case 'Menu':
                         break;
