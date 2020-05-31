@@ -625,6 +625,15 @@ endif;
             });
     });
 
+    fs.writeFile('home.php',
+        `<?php get_header(); ?>
+<?php get_template_part( 'template-parts/get', 'posts' ); ?>
+<?php get_footer(); ?>`
+        , function (err) {
+            if (err) throw err;
+            console.log('Home file: home.php generated'.green);
+        });
+
 
     fs.writeFile('archive.php',
         `<?php get_header(); ?>
