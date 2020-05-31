@@ -121,7 +121,7 @@ program.command('create')
                     name: 'new_asset',
                     message: 'Create New Asset',
                     choices: ['Template File', 'Archive', 'Single', 'Widget', 'CPT', 'Sidebar', 'Dashboard Widget']
-                    // 'Taxonomy', , 'Menu', 'Options Page',
+                    // 'Taxonomy', 'Menu', 'Options Page',
                 }
             ])
             .then(answers => {
