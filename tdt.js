@@ -4,7 +4,7 @@ const commander = require('commander');
 const program = new commander.Command();
 const colors = require('colors');
 const inquirer = require('inquirer');
-const {createCustomPostType, createThemeWidget, createArchivePage, createSinglePage} = require('./cli/models/create-assets');
+const {createCustomPostType, createThemeWidget, createArchivePage, createSinglePage, createSidebar} = require('./cli/models/create-assets');
 const {
     createNewConfigFileWithThemeHeadersOnly,
     setNewThemeSupportSectionInConfigurationFile,
@@ -95,7 +95,6 @@ program.command('support')
                 setNewThemeSupportSectionInConfigurationFile(answers);
             })
     });
-
 
 program.command('generate')
     .description('Generate the basic new theme files include core template files, functions and styles')
@@ -255,7 +254,7 @@ program.command('create')
                     case 'Sidebar':
                         inquirer
                             .prompt([
-                                {type: 'input', name: 'sidebar_name', message: "Sidebar name"},
+                                {type: 'input', name: 'sidebar_name', message: "Sidebar name (Back-end Title)"},
                                 {type: 'input', name: 'sidebar_id', message: "Sidebar id"}
                             ])
                             .then(answers => {

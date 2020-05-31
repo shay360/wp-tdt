@@ -1,1 +1,0 @@
-This directory should contain translation files for your theme
