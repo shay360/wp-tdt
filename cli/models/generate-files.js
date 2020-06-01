@@ -7,7 +7,21 @@ exports.generateThemeFiles = (themeConfigFile) => {
     generateStyleFile(themeConfigFile);
     generateSrcFiles();
     generatePostTypeImporter();
+    generateTaxonomiesImporter();
 };
+
+function generateTaxonomiesImporter() {
+    fs.mkdir('taxonomies/', {recursive: true}, (err) => {
+        if (err) throw err;
+        console.log('post-types folder generated'.green);
+        fs.writeFile('taxonomies/theme-taxonomies.php',
+            `<?php`
+            , function (err) {
+                if (err) throw err;
+                console.log('theme-taxonomies.php generated'.green);
+            });
+    });
+}
 
 function generateSrcFiles() {
     fs.mkdir('src/scss', {recursive: true}, (err) => {
@@ -451,6 +465,8 @@ function generateFunctionsFile(themeConfigFile) {
 require_once __DIR__ . '/includes/theme-setup.php';
 // Include importer for custom post types
 require_once __DIR__ . '/post-types/theme-post-types.php';
+// Include importer for custom post types
+require_once __DIR__ . '/taxonomies/theme-taxonomies.php';
 // Include importer for widgets
 require_once __DIR__ . '/classes/widgets/theme-widgets.php';
 // Include importer for sidebars
@@ -513,14 +529,14 @@ class ThemeSidebars {
 
     function generateMainSidebar() {
 
-        register_sidebar(array(
+        register_sidebar([
             'name' => 'Main sidebar {id: main-sidebar}',
             'id' => 'main-sidebar',
             'before_widget' => '<div class="sidebar">',
             'after_widget' => '</div>',
             'before_title' => '',
             'after_title' => '',
-        ));
+        ]);
 
     }
 }
@@ -591,6 +607,7 @@ function generateBasicTemplateFiles() {
                 console.log('README.txt file in languages generated'.green);
             });
     });
+
     fs.mkdir('template-parts', {recursive: true}, (err) => {
         if (err) throw err;
         fs.writeFile('template-parts/get-post.php',

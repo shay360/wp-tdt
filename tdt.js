@@ -10,7 +10,8 @@ const {
     createArchivePage,
     createSinglePage,
     createSidebar,
-    createDashboardWidget
+    createDashboardWidget,
+    createTaxonomy
 } = require('./cli/models/create-assets');
 const {
     createNewConfigFileWithThemeHeadersOnly,
@@ -120,7 +121,7 @@ program.command('create')
                     type: 'list',
                     name: 'new_asset',
                     message: 'Create New Asset',
-                    choices: ['Template File', 'Archive', 'Single', 'Widget', 'CPT', 'Sidebar', 'Dashboard Widget']
+                    choices: ['Template File', 'Archive', 'Single', 'Widget', 'CPT', 'Taxonomy', 'Sidebar', 'Dashboard Widget']
                     // 'Taxonomy', 'Menu', 'Options Page',
                 }
             ])
@@ -251,6 +252,82 @@ program.command('create')
                             });
                         break;
                     case 'Taxonomy':
+                        inquirer
+                            .prompt([
+                                {
+                                    type: 'input',
+                                    name: 'taxonomy_for_post_types',
+                                    message: "Taxonomy for post types [separated with comma's without spaces]"
+                                },
+                                {type: 'input', name: 'taxonomy_single_name', message: "Taxonomy single name"},
+                                {type: 'input', name: 'taxonomy_plural_name', message: "Taxonomy plural name"},
+                                {type: 'input', name: 'taxonomy_description', message: "Taxonomy description"},
+                                {type: 'input', name: 'taxonomy_key', message: "Taxonomy key"},
+                                {type: 'input', name: 'taxonomy_text_domain', message: "Taxonomy text domain"},
+                                {
+                                    type: 'list',
+                                    name: 'taxonomy_is_hierarchical',
+                                    message: "Taxonomy is hierarchical?",
+                                    choices: ['true', 'false']
+                                },
+                                {
+                                    type: 'list',
+                                    name: 'taxonomy_is_public',
+                                    message: "Taxonomy is public?",
+                                    choices: ['true', 'false']
+                                },
+                                {
+                                    type: 'list',
+                                    name: 'taxonomy_is_publicly_queryable',
+                                    message: "Taxonomy is publicly queryable?",
+                                    choices: ['true', 'false']
+                                },
+                                {
+                                    type: 'list',
+                                    name: 'taxonomy_show_in_ui',
+                                    message: "Taxonomy show in ui?",
+                                    choices: ['true', 'false']
+                                },
+                                {
+                                    type: 'list',
+                                    name: 'taxonomy_show_in_menu',
+                                    message: "Taxonomy show in menu?",
+                                    choices: ['true', 'false']
+                                },
+                                {
+                                    type: 'list',
+                                    name: 'taxonomy_show_in_nav_menus',
+                                    message: "Taxonomy show in nav menus?",
+                                    choices: ['true', 'false']
+                                },
+                                {
+                                    type: 'list',
+                                    name: 'taxonomy_show_in_rest',
+                                    message: "Taxonomy show in REST?",
+                                    choices: ['true', 'false']
+                                },
+                                {
+                                    type: 'list',
+                                    name: 'taxonomy_show_in_tag_cloud',
+                                    message: "Taxonomy show in tag cloud?",
+                                    choices: ['true', 'false']
+                                },
+                                {
+                                    type: 'list',
+                                    name: 'taxonomy_show_in_quick_edit',
+                                    message: "Taxonomy show in quick edit?",
+                                    choices: ['true', 'false']
+                                },
+                                {
+                                    type: 'list',
+                                    name: 'taxonomy_show_in_admin_column',
+                                    message: "Taxonomy show in admin column?",
+                                    choices: ['true', 'false']
+                                }
+                            ])
+                            .then(answers => {
+                                createTaxonomy(answers);
+                            });
                         break;
                     case 'Dashboard Widget':
                         inquirer

@@ -3,26 +3,99 @@ const colors = require('colors');
 const {isImportExists} = require('./file-tools');
 const {toCamelCase, pascalCase, properCase} = require('./generic-tools');
 
+exports.createTaxonomy = (data) => {
+    const taxonomyData = data;
+    fs.readFile('./taxonomies/theme-taxonomies.php', function read(err, data) {
+        if (err) throw err;
+        console.log(taxonomyData);
+        let fileContent = data.toString();
+        const className = pascalCase(toCamelCase(taxonomyData.taxonomy_single_name));
+        const postTypes = taxonomyData.taxonomy_for_post_types.split(',');
+        let taxPostTypes = `[`;
+        postTypes.forEach(post => {
+            taxPostTypes += `'${post}'`;
+        });
+        taxPostTypes += `]`;
+        taxPostTypes = taxPostTypes.replace(/''/g, '\', \'');
+
+        const taxClass = `<?php
+
+class   ${className}Taxonomy {
+    public function __construct() {
+        add_action('init', [$this, 'create${className}']);
+    }
+
+    function create${className}() {
+
+        $labels = [
+            'name' => _x('${properCase(taxonomyData.taxonomy_plural_name.replace('-', ' '))}', 'taxonomy general name', '${taxonomyData.taxonomy_text_domain}'),
+            'singular_name' => _x('${properCase(taxonomyData.taxonomy_single_name.replace('-', ' '))}', 'taxonomy singular name', '${taxonomyData.taxonomy_text_domain}'),
+            'search_items' => __('Search ${properCase(taxonomyData.taxonomy_plural_name.replace('-', ' '))}', '${taxonomyData.taxonomy_text_domain}'),
+            'all_items' => __('All ${properCase(taxonomyData.taxonomy_plural_name.replace('-', ' '))}', '${taxonomyData.taxonomy_text_domain}'),
+            'parent_item' => __('Parent ${properCase(taxonomyData.taxonomy_single_name.replace('-', ' '))}', '${taxonomyData.taxonomy_text_domain}'),
+            'parent_item_colon' => __('Parent ${properCase(taxonomyData.taxonomy_single_name.replace('-', ' '))}:', '${taxonomyData.taxonomy_text_domain}'),
+            'edit_item' => __('Edit ${properCase(taxonomyData.taxonomy_single_name.replace('-', ' '))}', '${taxonomyData.taxonomy_text_domain}'),
+            'update_item' => __('Update ${properCase(taxonomyData.taxonomy_single_name.replace('-', ' '))}', '${taxonomyData.taxonomy_text_domain}'),
+            'add_new_item' => __('Add New ${properCase(taxonomyData.taxonomy_single_name.replace('-', ' '))}', '${taxonomyData.taxonomy_text_domain}'),
+            'new_item_name' => __('New ${properCase(taxonomyData.taxonomy_single_name.replace('-', ' '))} Name', '${taxonomyData.taxonomy_text_domain}'),
+            'menu_name' => __('${properCase(taxonomyData.taxonomy_single_name.replace('-', ' '))}', '${taxonomyData.taxonomy_text_domain}'),
+        ];
+
+        $args = [
+            'labels' => $labels,
+            'description' => __('${taxonomyData.taxonomy_description}', '${taxonomyData.taxonomy_text_domain}'),
+            'hierarchical' => ${taxonomyData.taxonomy_is_hierarchical},
+            'public' => ${taxonomyData.taxonomy_is_public},
+            'publicly_queryable' => ${taxonomyData.taxonomy_is_publicly_queryable},
+            'show_ui' => ${taxonomyData.taxonomy_show_in_ui},
+            'show_in_menu' => ${taxonomyData.taxonomy_show_in_menu},
+            'show_in_nav_menus' => ${taxonomyData.taxonomy_show_in_nav_menus},
+            'show_tagcloud' => ${taxonomyData.taxonomy_show_in_tag_cloud},
+            'show_in_quick_edit' => ${taxonomyData.taxonomy_show_in_quick_edit},
+            'show_admin_column' => ${taxonomyData.taxonomy_show_in_admin_column},
+            'show_in_rest' => ${taxonomyData.taxonomy_show_in_rest},
+        ];
+        register_taxonomy('taxonomy', ${taxPostTypes}, $args);
+
+    }
+}
+
+new ${className}Taxonomy();`;
+
+        fs.writeFile(`taxonomies/${className}Taxonomy.php`,
+            taxClass
+            , function (err) {
+                if (err) throw err;
+
+                if (!isImportExists(fileContent, `require_once __DIR__ . '/${className}Taxonomy.php';`)) {
+                    fs.appendFile('./taxonomies/theme-taxonomies.php', `\nrequire_once __DIR__ . '/${className}Taxonomy.php';`, (err) => {
+                        if (err) throw err;
+                        console.log(`theme-taxonomies.php updated successfully`.green);
+                    });
+                }
+                console.log(`${className}Taxonomy.php generated`.green);
+            });
+    });
+};
+
 exports.createCustomPostType = (data) => {
     const customPostTypeData = data;
-    fs.readFile('functions.php', function read(err, data) {
+    fs.readFile('./post-types/theme-post-types.php', function read(err, data) {
         if (err) throw err;
-        fs.readFile('./post-types/theme-post-types.php', function read(err, data) {
-            if (err) throw err;
-            let fileContent = data.toString();
-            const cptSingular = customPostTypeData.post_type_singular;
-            const cptPlural = customPostTypeData.post_type_plural;
-            const cptDescription = customPostTypeData.post_type_description;
-            const cptTextDomain = customPostTypeData.post_type_text_domain;
-            const classPrefix = pascalCase(toCamelCase(cptSingular));
-            let cptSupports = `[`;
-            customPostTypeData.supports.forEach(support => {
-                cptSupports += `'${support}'`;
-            })
-            cptSupports += `]`;
-            cptSupports = cptSupports.replace(/''/g, '\', \'');
-            const fileName = cptSingular + '-post-type.php';
-            const cptArgs = `[
+        let fileContent = data.toString();
+        const cptSingular = customPostTypeData.post_type_singular;
+        const cptPlural = customPostTypeData.post_type_plural;
+        const cptDescription = customPostTypeData.post_type_description;
+        const cptTextDomain = customPostTypeData.post_type_text_domain;
+        const classPrefix = pascalCase(toCamelCase(cptSingular));
+        let cptSupports = `[`;
+        customPostTypeData.supports.forEach(support => {
+            cptSupports += `'${support}'`;
+        })
+        cptSupports += `]`;
+        cptSupports = cptSupports.replace(/''/g, '\', \'');
+        const fileName = cptSingular + '-post-type.php';
+        const cptArgs = `[
                 \t\t'label' => __( '${properCase(cptSingular.replace('-', ' '))}', '${cptTextDomain}' ),
                 \t\t'description' => __( '${cptDescription}', '${cptTextDomain}' ),
                 \t\t'labels' => $labels,
@@ -42,7 +115,7 @@ exports.createCustomPostType = (data) => {
                 \t\t'publicly_queryable' => ${customPostTypeData.publicly_queryable},
                 \t\t'capability_type' => 'post',
                 ]`;
-            const labels = `[
+        const labels = `[
                 \t\t'name' => _x( '${properCase(cptSingular.replace('-', ' '))}', 'Post Type General Name', '${cptTextDomain}' ),
                 \t\t'singular_name' => _x( '${properCase(cptSingular.replace('-', ' '))}', 'Post Type Singular Name', '${cptTextDomain}' ),
                 \t\t'menu_name' => _x( '${properCase(cptPlural.replace('-', ' '))}', 'Admin Menu text', '${cptTextDomain}' ),
@@ -71,7 +144,7 @@ exports.createCustomPostType = (data) => {
                 \t\t'items_list_navigation' => __( '${properCase(cptPlural.replace('-', ' '))} list navigation', '${cptTextDomain}' ),
                 \t\t'filter_items_list' => __( 'Filter ${properCase(cptPlural.replace('-', ' '))} list', '${cptTextDomain}' ),
                 ]`;
-            const cptClassContent = `<?php
+        const cptClassContent = `<?php
                 
 class ${classPrefix}PostType {
 
@@ -87,22 +160,21 @@ class ${classPrefix}PostType {
 }
 new ${classPrefix}PostType();`;
 
-            fs.writeFile(`post-types/${fileName}`,
-                cptClassContent
-                , function (err) {
-                    if (err) throw err;
+        fs.writeFile(`post-types/${fileName}`,
+            cptClassContent
+            , function (err) {
+                if (err) throw err;
 
-                    if (!isImportExists(fileContent, `require_once __DIR__ . '/${fileName}';`)) {
-                        fs.appendFile('./post-types/theme-post-types.php', `\nrequire_once __DIR__ . '/${fileName}';`, (err) => {
-                            if (err) throw err;
-                            console.log('theme-post-types.php updated successfully'.green);
-                        });
-                    }
-                    console.log(`${fileName} generated`.green);
+                if (!isImportExists(fileContent, `require_once __DIR__ . '/${fileName}';`)) {
+                    fs.appendFile('./post-types/theme-post-types.php', `\nrequire_once __DIR__ . '/${fileName}';`, (err) => {
+                        if (err) throw err;
+                        console.log('theme-post-types.php updated successfully'.green);
+                    });
+                }
+                console.log(`${fileName} generated`.green);
 
 
-                });
-        });
+            });
     });
 };
 
@@ -119,14 +191,14 @@ class ${fileName} {
 
     function generate${fileName}() {
 
-        register_sidebar(array(
+        register_sidebar([
             'name' => '${properCase(data.sidebar_name)}',
             'id' => '${data.sidebar_id}',
             'before_widget' => '<div class="sidebar">',
             'after_widget' => '</div>',
             'before_title' => '',
             'after_title' => '',
-        ));
+        ]);
 
     }
 }
@@ -153,6 +225,7 @@ new ${fileName}();`,
         });
 
 }
+
 exports.createSinglePage = (data) => {
     const filename = data.post_type;
     fs.writeFile(`single-${filename}.php`,
@@ -238,12 +311,11 @@ class ${className}_Widget extends WP_Widget {
         parent::__construct(
             '${className}_widget',
             esc_html__( '${widgetData.widget_title}', '${widgetData.widget_text_domain}' ),
-            array( 'description' => esc_html__( '${widgetData.widget_description}', '${widgetData.widget_text_domain}' ), ) // Args
+            [ 'description' => esc_html__( '${widgetData.widget_description}', '${widgetData.widget_text_domain}' ), ] // Args
         );
     }
 
-    private $widget_fields = array(
-    );
+    private $widget_fields = [];
 
     public function widget( $args, $instance ) {
         echo $args['before_widget'];
@@ -288,7 +360,7 @@ class ${className}_Widget extends WP_Widget {
     }
 
     public function update( $new_instance, $old_instance ) {
-        $instance = array();
+        $instance = [];
         $instance['title'] = ( ! empty( $new_instance['title'] ) ) ? strip_tags( $new_instance['title'] ) : '';
         foreach ( $this->widget_fields as $widget_field ) {
             switch ( $widget_field['type'] ) {
