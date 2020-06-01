@@ -35,3 +35,4 @@ The create command will let you generate new assets for your theme like page tem
 5. Single
 6. Sidebar
 7. Dashboard Widgets
+8. Taxonomy
