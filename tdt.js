@@ -11,7 +11,8 @@ const {
     createSinglePage,
     createSidebar,
     createDashboardWidget,
-    createTaxonomy
+    createTaxonomy,
+    createSettingsPage
 } = require('./cli/models/create-assets');
 const {
     createNewConfigFileWithThemeHeadersOnly,
@@ -122,7 +123,6 @@ program.command('create')
                     name: 'new_asset',
                     message: 'Create New Asset',
                     choices: ['Template File', 'Archive', 'Single', 'Widget', 'CPT', 'Taxonomy', 'Sidebar', 'Dashboard Widget']
-                    // 'Menu', 'Options Page',
                 }
             ])
             .then(answers => {
@@ -337,10 +337,6 @@ program.command('create')
                             .then(answers => {
                                 createDashboardWidget(answers);
                             });
-                        break;
-                    case 'Menu':
-                        break;
-                    case 'Options Page':
                         break;
                     case 'Sidebar':
                         inquirer

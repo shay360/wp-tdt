@@ -78,6 +78,79 @@ new ${className}Taxonomy();`;
     });
 };
 
+exports.createSettingsPage = (data) => {
+    const className = pascalCase(toCamelCase(data.settings_page_menu_title));
+    const fileName = data.settings_page_menu_title.toLowerCase().replace(/ /g, '-');
+
+    fs.readFile('./classes/settings-pages/theme-settings-pages.php', function read(err, importerData) {
+        if (err) throw err;
+        let fileContent = importerData.toString();
+        const settingsPageContent = `<?php
+    
+class ${className}_SettingsPage {
+
+    public function __construct() {
+        add_action('admin_menu', [$this, 'tdt_create_settings']);
+        add_action('admin_init', [$this, 'tdt_setup_sections']);
+        add_action('admin_init', [$this, 'tdt_setup_fields']);
+    }
+
+    public function tdt_create_settings() {
+        $page_title = '${properCase(data.settings_page_menu_title)}';
+        $menu_title = '${properCase(data.settings_page_menu_title)}';
+        $capability = 'manage_options';
+        $slug = '${fileName}';
+        $callback = [$this, '${toCamelCase(data.settings_page_title)}'];
+        $icon = 'dashicons-admin-settings';
+        $position = 2;
+        add_menu_page($page_title, $menu_title, $capability, $slug, $callback, $icon, $position);
+    }
+
+    public function ${toCamelCase(data.settings_page_title)}() { ?>
+        <div class="wrap">
+            <h1>${properCase(data.settings_page_menu_title)}</h1>
+            <?php settings_errors(); ?>
+            <form method="POST" action="options.php">
+                <?php
+                settings_fields('${fileName}-settings');
+                do_settings_sections('${fileName}-settings');
+                submit_button();
+                ?>
+            </form>
+        </div> <?php
+    }
+
+    public function tdt_setup_sections() {
+        add_settings_section('${fileName}_section', '${data.settings_page_description}', [], '${fileName}-settings');
+    }
+
+    public function tdt_setup_fields() {
+        $fields = [];
+    }
+
+    public function tdt_field_callback($field) {
+    }
+}
+
+new ${className}_SettingsPage();`;
+
+        fs.writeFile(`classes/settings-pages/${fileName}-settings-page.php`,
+            settingsPageContent
+            , function (err) {
+                if (err) throw err;
+                console.log(`${fileName}-settings-page.php created successfully`.green);
+                if (!isImportExists(fileContent, `require_once __DIR__ . '/${fileName}-settings-page.php';`)) {
+                    fs.appendFile('./classes/settings-pages/theme-settings-pages.php', `\nrequire_once __DIR__ . '/${fileName}-settings-page.php';`, (err) => {
+                        if (err) throw err;
+                        console.log('theme-settings-pages.php updated successfully'.green);
+                    });
+                }
+                console.log(`${fileName} generated`.green);
+            });
+    });
+
+};
+
 exports.createCustomPostType = (data) => {
     const customPostTypeData = data;
     fs.readFile('./post-types/theme-post-types.php', function read(err, data) {

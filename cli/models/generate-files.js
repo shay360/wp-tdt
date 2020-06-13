@@ -510,17 +510,6 @@ require_once __DIR__ . '/classes/dashboard-widgets/theme-dashboard-widgets.php';
             });
     });
 
-    fs.mkdir('classes/settings-pages/', {recursive: true}, (err) => {
-        if (err) throw err;
-        fs.writeFile('classes/settings-pages/theme-settings-pages.php',
-            `<?php`,
-            function (err) {
-                if (err) throw err;
-                console.log('theme-settings-pages.php generated'.green);
-            });
-    });
-
-
     fs.mkdir('classes/sidebars/', {recursive: true}, (err) => {
         if (err) throw err;
         fs.writeFile('classes/sidebars/theme-sidebars.php',
