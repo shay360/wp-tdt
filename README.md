@@ -26,7 +26,7 @@ For compiling the files please run `npm run watch` this will start a gulpfile th
 
 ## Create command
 `tdt create` <br>
-The create command will let you generate new assets for your theme like page templates, custom post types, widgets etc... <br>
+The "create" command will let you generate new assets for your theme like page templates, custom post types, widgets etc... <br>
 
 1. Template file
 2. CPT
