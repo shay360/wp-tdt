@@ -2,8 +2,8 @@
 // ###run npm link to activate cli###
 const commander = require('commander');
 const program = new commander.Command();
-const colors = require('colors');
 const inquirer = require('inquirer');
+const {write} = require("./cli/models/cli-writer");
 const {
     createCustomPostType,
     createThemeWidget,
@@ -108,7 +108,7 @@ program.command('support')
 program.command('generate')
     .description('Generate the basic new theme files include core template files, functions and styles')
     .action(() => {
-        console.log('Basic file generation started'.blue);
+        write('Basic file generation started');
         generateThemeBasicFiles();
     });
 
@@ -148,7 +148,7 @@ program.command('create')
                             });
                         break;
                     case 'Archive':
-                        console.log(`For Example: article / team-member`.red);
+                        write(`For Example: article / team-member`);
                         inquirer
                             .prompt([
                                 {type: 'input', name: 'post_type', message: "Create archive page to post type"},
@@ -158,7 +158,7 @@ program.command('create')
                             });
                         break;
                     case 'Single':
-                        console.log(`For Example: article / team-member`.red);
+                        write(`For Example: article / team-member`);
                         inquirer
                             .prompt([
                                 {type: 'input', name: 'post_type', message: "Create single page to post type"},
