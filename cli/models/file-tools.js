@@ -1,5 +1,4 @@
 const fs = require("fs");
-const colors = require('colors');
 
 exports.getConfigFile = () => {
     return JSON.parse(fs.readFileSync('tdt.config.json'));

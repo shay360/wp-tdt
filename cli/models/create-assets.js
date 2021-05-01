@@ -1,5 +1,5 @@
 const fs = require('fs');
-const colors = require('colors');
+const {write} = require("./cli-writer");
 const {isImportExists} = require('./file-tools');
 const {toCamelCase, pascalCase, properCase} = require('./generic-tools');
 
@@ -7,7 +7,7 @@ exports.createTaxonomy = (data) => {
     const taxonomyData = data;
     fs.readFile('./taxonomies/theme-taxonomies.php', function read(err, data) {
         if (err) throw err;
-        console.log(taxonomyData);
+        write(taxonomyData);
         let fileContent = data.toString();
         const className = pascalCase(toCamelCase(taxonomyData.taxonomy_single_name));
         const postTypes = taxonomyData.taxonomy_for_post_types.split(',');
@@ -70,10 +70,10 @@ new ${className}Taxonomy();`;
                 if (!isImportExists(fileContent, `require_once __DIR__ . '/${className}Taxonomy.php';`)) {
                     fs.appendFile('./taxonomies/theme-taxonomies.php', `\nrequire_once __DIR__ . '/${className}Taxonomy.php';`, (err) => {
                         if (err) throw err;
-                        console.log(`theme-taxonomies.php updated successfully`.green);
+                        write(`theme-taxonomies.php updated successfully`);
                     });
                 }
-                console.log(`${className}Taxonomy.php generated`.green);
+                write(`${className}Taxonomy.php generated`);
             });
     });
 };
@@ -138,14 +138,14 @@ new ${className}_SettingsPage();`;
             settingsPageContent
             , function (err) {
                 if (err) throw err;
-                console.log(`${fileName}-settings-page.php created successfully`.green);
+                write(`${fileName}-settings-page.php created successfully`);
                 if (!isImportExists(fileContent, `require_once __DIR__ . '/${fileName}-settings-page.php';`)) {
                     fs.appendFile('./classes/settings-pages/theme-settings-pages.php', `\nrequire_once __DIR__ . '/${fileName}-settings-page.php';`, (err) => {
                         if (err) throw err;
-                        console.log('theme-settings-pages.php updated successfully'.green);
+                        write('theme-settings-pages.php updated successfully');
                     });
                 }
-                console.log(`${fileName} generated`.green);
+                write(`${fileName} generated`);
             });
     });
 
@@ -241,10 +241,10 @@ new ${classPrefix}PostType();`;
                 if (!isImportExists(fileContent, `require_once __DIR__ . '/${fileName}';`)) {
                     fs.appendFile('./post-types/theme-post-types.php', `\nrequire_once __DIR__ . '/${fileName}';`, (err) => {
                         if (err) throw err;
-                        console.log('theme-post-types.php updated successfully'.green);
+                        write('theme-post-types.php updated successfully');
                     });
                 }
-                console.log(`${fileName} generated`.green);
+                write(`${fileName} generated`);
 
 
             });
@@ -279,7 +279,7 @@ class ${fileName} {
 new ${fileName}();`,
         function (err) {
             if (err) throw err;
-            console.log(`${fileName}.php generated`.green);
+            write(`${fileName}.php generated`);
 
             fs.readFile('./classes/sidebars/theme-sidebars.php', function read(err, data) {
                 if (err) throw err;
@@ -288,10 +288,10 @@ new ${fileName}();`,
                 if (!isImportExists(fileContent, `require_once __DIR__ . '/${className}.php';`)) {
                     fs.appendFile('./classes/sidebars/theme-sidebars.php', `\nrequire_once __DIR__ . '/${className}.php';`, (err) => {
                         if (err) throw err;
-                        console.log('theme-sidebars.php updated successfully'.green);
+                        write('theme-sidebars.php updated successfully');
                     });
                 }
-                console.log(`${className} generated`.green);
+                write(`${className} generated`);
             });
 
 
@@ -307,7 +307,7 @@ exports.createSinglePage = (data) => {
 <?php get_footer(); ?>`
         , function (err) {
             if (err) throw err;
-            console.log(`single-${filename}.php generated`.green);
+            write(`single-${filename}.php generated`);
         });
 };
 
@@ -340,14 +340,14 @@ class ${widgetClassName} {
 new ${widgetClassName}();`
         , function (err) {
             if (err) throw err;
-            console.log(`${widgetClassName}.php generated`.green);
+            write(`${widgetClassName}.php generated`);
             fs.readFile('./classes/dashboard-widgets/theme-dashboard-widgets.php', function read(err, data) {
                 if (err) throw err;
                 let fileContent = data.toString();
                 if (!isImportExists(fileContent, `require_once __DIR__ . '/${widgetClassName}.php';`)) {
                     fs.appendFile('./classes/dashboard-widgets/theme-dashboard-widgets.php', `\nrequire_once __DIR__ . '/${widgetClassName}.php';`, (err) => {
                         if (err) throw err;
-                        console.log('theme-dashboard-widgets.php updated successfully'.green);
+                        write('theme-dashboard-widgets.php updated successfully');
                     });
                 }
             });
@@ -362,7 +362,7 @@ exports.createArchivePage = (data) => {
 <?php get_footer(); ?>`
         , function (err) {
             if (err) throw err;
-            console.log(`archive-${filename}.php generated`.green);
+            write(`archive-${filename}.php generated`);
         });
 };
 
@@ -459,10 +459,10 @@ add_action( 'widgets_init', 'register_${className}_widget' );`;
                     if (!isImportExists(fileContent, `require_once __DIR__ . '/${className}.php';`)) {
                         fs.appendFile('./classes/widgets/theme-widgets.php', `\nrequire_once __DIR__ . '/${className}.php';`, (err) => {
                             if (err) throw err;
-                            console.log('theme-widgets.php updated successfully'.green);
+                            write('theme-widgets.php updated successfully');
                         });
                     }
-                    console.log(`${className} generated`.green);
+                    write(`${className} generated`);
                 });
         });
     });
