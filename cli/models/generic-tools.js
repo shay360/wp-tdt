@@ -51,7 +51,7 @@ exports.upperCase = (str) => {
  * Remove non-word chars.
  */
 function removeNonWord(str) {
-    return str.replace(/[^0-9a-zA-Z\xC0-\xFF \-]/g, "");
+    return str.replace(/[^0-9a-zA-Z\xC0-\xFF -]/g, "");
 }
 
 /**
