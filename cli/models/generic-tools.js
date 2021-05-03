@@ -1,7 +1,7 @@
 exports.toCamelCase = (str) => {
     str = replaceAccents(str);
     str = removeNonWord(str)
-        .replace(/\-/g, " ") //convert all hyphens to spaces
+        .replace(/-/g, " ") //convert all hyphens to spaces
         .replace(/\s[a-z]/g, this.upperCase) //convert first char of each word to UPPERCASE
         .replace(/\s+/g, "") //remove spaces
         .replace(/^[A-Z]/g, this.lowerCase); //convert first char to lowercase
