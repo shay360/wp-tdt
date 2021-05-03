@@ -1,7 +1,7 @@
 exports.toCamelCase = (str) => {
     str = replaceAccents(str);
     str = removeNonWord(str)
-        .replace(/\-/g, " ") //convert all hyphens to spaces
+        .replace(/-/g, " ") //convert all hyphens to spaces
         .replace(/\s[a-z]/g, this.upperCase) //convert first char of each word to UPPERCASE
         .replace(/\s+/g, "") //remove spaces
         .replace(/^[A-Z]/g, this.lowerCase); //convert first char to lowercase
@@ -14,7 +14,6 @@ exports.toCamelCase = (str) => {
 exports.lowerCase = (str) => {
     return str.toLowerCase();
 }
-
 
 /**
  * camelCase + UPPERCASE first char
@@ -31,27 +30,17 @@ exports.properCase = (str) => {
 }
 
 /**
- * Add space between camelCase text.
- */
-function unCamelCase(str) {
-    str = str.replace(/([a-z\xE0-\xFF])([A-Z\xC0\xDF])/g, "$1 $2");
-    str = str.toLowerCase(); //add space between camelCase text
-    return str;
-}
-
-/**
  * "Safer" String.toUpperCase()
  */
 exports.upperCase = (str) => {
     return str.toUpperCase();
 }
 
-
 /**
  * Remove non-word chars.
  */
 function removeNonWord(str) {
-    return str.replace(/[^0-9a-zA-Z\xC0-\xFF \-]/g, "");
+    return str.replace(/[^0-9a-zA-Z\xC0-\xFF -]/g, "");
 }
 
 /**

@@ -11,8 +11,7 @@ const {
     createSinglePage,
     createSidebar,
     createDashboardWidget,
-    createTaxonomy,
-    createSettingsPage
+    createTaxonomy
 } = require('./cli/models/create-assets');
 const {
     createNewConfigFileWithThemeHeadersOnly,
