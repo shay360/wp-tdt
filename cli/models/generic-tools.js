@@ -31,21 +31,11 @@ exports.properCase = (str) => {
 }
 
 /**
- * Add space between camelCase text.
- */
-function unCamelCase(str) {
-    str = str.replace(/([a-z\xE0-\xFF])([A-Z\xC0\xDF])/g, "$1 $2");
-    str = str.toLowerCase(); //add space between camelCase text
-    return str;
-}
-
-/**
  * "Safer" String.toUpperCase()
  */
 exports.upperCase = (str) => {
     return str.toUpperCase();
 }
-
 
 /**
  * Remove non-word chars.
