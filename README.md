@@ -1,4 +1,5 @@
 # wp-tdt - Wordpress Theme Developer Tools
+> This library is under development so feel free to write me
 
 ## More nicer documentation coming soon
 
