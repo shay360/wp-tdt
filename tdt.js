@@ -3,7 +3,7 @@
 const commander = require('commander');
 const program = new commander.Command();
 const inquirer = require('inquirer');
-const {write} = require("./cli/models/cli-writer");
+const {Write} = require("./cli/models/Write");
 const {
     createCustomPostType,
     createThemeWidget,
@@ -107,7 +107,7 @@ program.command('support')
 program.command('generate')
     .description('Generate the basic new theme files include core template files, functions and styles')
     .action(() => {
-        write('Basic file generation started');
+        Write.infoln('Basic file generation started');
         generateThemeBasicFiles();
     });
 
@@ -147,7 +147,7 @@ program.command('create')
                             });
                         break;
                     case 'Archive':
-                        write(`For Example: article / team-member`);
+                        Write.infoln(`For Example: article / team-member`);
                         inquirer
                             .prompt([
                                 {type: 'input', name: 'post_type', message: "Create archive page to post type"},
@@ -157,7 +157,7 @@ program.command('create')
                             });
                         break;
                     case 'Single':
-                        write(`For Example: article / team-member`);
+                        Write.infoln(`For Example: article / team-member`);
                         inquirer
                             .prompt([
                                 {type: 'input', name: 'post_type', message: "Create single page to post type"},
@@ -350,5 +350,4 @@ program.command('create')
                 }
             })
     });
-
 program.parse(process.argv);

@@ -22,9 +22,9 @@
   "homepage": "https://github.com/shay360/wp-tdt#readme",
   "devDependencies": {
     "@babel/core": "^7.9.6",
-    "@babel/preset-env": "^7.9.6",
+    "@babel/preset-env": "^7.14.1",
     "browser-sync": "^2.26.7",
-    "colors": "^1.4.0",
+    "chalk": "^4.1.1",
     "commander": "^4.1.1",
     "gulp": "^4.0.2",
     "gulp-babel": "^8.0.0",
