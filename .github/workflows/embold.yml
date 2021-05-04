@@ -1,0 +1,19 @@
+on: [push]
+
+jobs:
+  embold_scan_job:
+    runs-on: ubuntu-latest
+    name: Run Embold scan
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Embold scan step
+        uses: ./ # Uses an action in the root directory
+        id: embold
+        with:
+          emboldUrl: ${{ secrets.EMB_URL }}
+          emboldToken: ${{ secrets.EMB_TOKEN }}
+          emboldRepoUid: ${{ secrets.EMB_REPOUID }}
+      # Use the output from the `hello` step
+      - name: Outputs the scan status
+        run: echo "The time was ${{ steps.embold.outputs.status }}"
