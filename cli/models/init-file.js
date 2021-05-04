@@ -1,5 +1,6 @@
 const fs = require('fs');
-const {write} = require("./cli-writer");
+const {Write} = require("./Write");
+const {write} = require("./Write");
 const {convertSupportOptionsToBooleans} = require('./data-validation');
 const {generateThemeFiles} = require('./generate-files');
 const {getConfigFile} = require('./file-tools');
@@ -15,11 +16,11 @@ exports.generateThemeBasicFiles = () => {
  * @param headers
  */
 exports.createNewConfigFileWithThemeHeadersOnly = (headers) => {
-    write('Generating new configuration file');
+    Write.infoln('Generating new configuration file');
     fs.writeFile('tdt.config.json', buildNewThemeHeadersOnly(headers), function (err) {
         if (err) throw err;
-        write('tdt.config.json created');
-        write('For theme support configuration "tdt support"');
+        Write.successln('tdt.config.json created');
+        Write.infoln('For theme support configuration "tdt support"');
     });
 };
 
@@ -46,7 +47,7 @@ exports.setNewThemeSupportSectionInConfigurationFile = (supportOptions) => {
     supportOptions = convertSupportOptionsToBooleans(supportOptions);
     fs.readFile('tdt.config.json', 'utf8', (err, data) => {
         if (err) {
-            write('Error while loading config file');
+            Write.errorln('Error while loading config file');
             throw err;
         }
         currentConfigurationFile = JSON.parse(data);
@@ -55,7 +56,7 @@ exports.setNewThemeSupportSectionInConfigurationFile = (supportOptions) => {
         currentConfigurationFile = JSON.stringify(currentConfigurationFile);
         fs.writeFile('tdt.config.json', currentConfigurationFile, function (err) {
             if (err) throw err;
-            write('tdt.config.json created and minified');
+            Write.infoln('tdt.config.json created and minified');
         });
     });
 

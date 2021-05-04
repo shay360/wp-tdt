@@ -1,5 +1,5 @@
 const fs = require('fs');
-const {write} = require("./cli-writer");
+const {Write} = require("./Write");
 const {isImportExists} = require('./file-tools');
 const {toCamelCase, pascalCase, properCase} = require('./generic-tools');
 
@@ -7,7 +7,7 @@ exports.createTaxonomy = (data) => {
     const taxonomyData = data;
     fs.readFile('./taxonomies/theme-taxonomies.php', function read(err, data) {
         if (err) throw err;
-        write(taxonomyData);
+        Write.infoln(taxonomyData);
         let fileContent = data.toString();
         const className = pascalCase(toCamelCase(taxonomyData.taxonomy_single_name));
         const postTypes = taxonomyData.taxonomy_for_post_types.split(',');
@@ -70,10 +70,10 @@ new ${className}Taxonomy();`;
                 if (!isImportExists(fileContent, `require_once __DIR__ . '/${className}Taxonomy.php';`)) {
                     fs.appendFile('./taxonomies/theme-taxonomies.php', `\nrequire_once __DIR__ . '/${className}Taxonomy.php';`, (err) => {
                         if (err) throw err;
-                        write(`theme-taxonomies.php updated successfully`);
+                        Write.successln(`theme-taxonomies.php updated successfully`);
                     });
                 }
-                write(`${className}Taxonomy.php generated`);
+                Write.infoln(`${className}Taxonomy.php generated`);
             });
     });
 };
@@ -81,7 +81,6 @@ new ${className}Taxonomy();`;
 exports.createSettingsPage = (data) => {
     const className = pascalCase(toCamelCase(data.settings_page_menu_title));
     const fileName = data.settings_page_menu_title.toLowerCase().replace(/ /g, '-');
-
     fs.readFile('./classes/settings-pages/theme-settings-pages.php', function read(err, importerData) {
         if (err) throw err;
         let fileContent = importerData.toString();
@@ -138,14 +137,14 @@ new ${className}_SettingsPage();`;
             settingsPageContent
             , function (err) {
                 if (err) throw err;
-                write(`${fileName}-settings-page.php created successfully`);
+                writeLn.successln(`${fileName}-settings-page.php created successfully`);
                 if (!isImportExists(fileContent, `require_once __DIR__ . '/${fileName}-settings-page.php';`)) {
                     fs.appendFile('./classes/settings-pages/theme-settings-pages.php', `\nrequire_once __DIR__ . '/${fileName}-settings-page.php';`, (err) => {
                         if (err) throw err;
-                        write('theme-settings-pages.php updated successfully');
+                        writeLn.successln('theme-settings-pages.php updated successfully');
                     });
                 }
-                write(`${fileName} generated`);
+                writeLn.infoln(`${fileName} generated`);
             });
     });
 
@@ -241,10 +240,10 @@ new ${classPrefix}PostType();`;
                 if (!isImportExists(fileContent, `require_once __DIR__ . '/${fileName}';`)) {
                     fs.appendFile('./post-types/theme-post-types.php', `\nrequire_once __DIR__ . '/${fileName}';`, (err) => {
                         if (err) throw err;
-                        write('theme-post-types.php updated successfully');
+                        writeLn.successln('theme-post-types.php updated successfully');
                     });
                 }
-                write(`${fileName} generated`);
+                writeLn.infoln(`${fileName} generated`);
 
 
             });
@@ -279,7 +278,7 @@ class ${fileName} {
 new ${fileName}();`,
         function (err) {
             if (err) throw err;
-            write(`${fileName}.php generated`);
+            writeLn.infoln(`${fileName}.php generated`);
 
             fs.readFile('./classes/sidebars/theme-sidebars.php', function read(err, data) {
                 if (err) throw err;
@@ -288,15 +287,12 @@ new ${fileName}();`,
                 if (!isImportExists(fileContent, `require_once __DIR__ . '/${className}.php';`)) {
                     fs.appendFile('./classes/sidebars/theme-sidebars.php', `\nrequire_once __DIR__ . '/${className}.php';`, (err) => {
                         if (err) throw err;
-                        write('theme-sidebars.php updated successfully');
+                        writeLn.successln('theme-sidebars.php updated successfully');
                     });
                 }
-                write(`${className} generated`);
+                writeLn.infoln(`${className} generated`);
             });
-
-
         });
-
 }
 
 exports.createSinglePage = (data) => {
@@ -307,7 +303,7 @@ exports.createSinglePage = (data) => {
 <?php get_footer(); ?>`
         , function (err) {
             if (err) throw err;
-            write(`single-${filename}.php generated`);
+            Write.infoln(`single-${filename}.php generated`);
         });
 };
 
@@ -340,14 +336,14 @@ class ${widgetClassName} {
 new ${widgetClassName}();`
         , function (err) {
             if (err) throw err;
-            write(`${widgetClassName}.php generated`);
+            Write.infoln(`${widgetClassName}.php generated`);
             fs.readFile('./classes/dashboard-widgets/theme-dashboard-widgets.php', function read(err, data) {
                 if (err) throw err;
                 let fileContent = data.toString();
                 if (!isImportExists(fileContent, `require_once __DIR__ . '/${widgetClassName}.php';`)) {
                     fs.appendFile('./classes/dashboard-widgets/theme-dashboard-widgets.php', `\nrequire_once __DIR__ . '/${widgetClassName}.php';`, (err) => {
                         if (err) throw err;
-                        write('theme-dashboard-widgets.php updated successfully');
+                        Write.successln('theme-dashboard-widgets.php updated successfully');
                     });
                 }
             });
@@ -362,7 +358,7 @@ exports.createArchivePage = (data) => {
 <?php get_footer(); ?>`
         , function (err) {
             if (err) throw err;
-            write(`archive-${filename}.php generated`);
+            Write.infoln(`archive-${filename}.php generated`);
         });
 };
 
@@ -459,10 +455,10 @@ add_action( 'widgets_init', 'register_${className}_widget' );`;
                     if (!isImportExists(fileContent, `require_once __DIR__ . '/${className}.php';`)) {
                         fs.appendFile('./classes/widgets/theme-widgets.php', `\nrequire_once __DIR__ . '/${className}.php';`, (err) => {
                             if (err) throw err;
-                            write('theme-widgets.php updated successfully');
+                            Write.successln('theme-widgets.php updated successfully');
                         });
                     }
-                    write(`${className} generated`);
+                    Write.infoln(`${className} generated`);
                 });
         });
     });
