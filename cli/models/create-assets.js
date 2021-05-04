@@ -137,14 +137,14 @@ new ${className}_SettingsPage();`;
             settingsPageContent
             , function (err) {
                 if (err) throw err;
-                writeLn.successln(`${fileName}-settings-page.php created successfully`);
+                Write.successln(`${fileName}-settings-page.php created successfully`);
                 if (!isImportExists(fileContent, `require_once __DIR__ . '/${fileName}-settings-page.php';`)) {
                     fs.appendFile('./classes/settings-pages/theme-settings-pages.php', `\nrequire_once __DIR__ . '/${fileName}-settings-page.php';`, (err) => {
                         if (err) throw err;
-                        writeLn.successln('theme-settings-pages.php updated successfully');
+                        Write.successln('theme-settings-pages.php updated successfully');
                     });
                 }
-                writeLn.infoln(`${fileName} generated`);
+                Write.infoln(`${fileName} generated`);
             });
     });
 
@@ -240,10 +240,10 @@ new ${classPrefix}PostType();`;
                 if (!isImportExists(fileContent, `require_once __DIR__ . '/${fileName}';`)) {
                     fs.appendFile('./post-types/theme-post-types.php', `\nrequire_once __DIR__ . '/${fileName}';`, (err) => {
                         if (err) throw err;
-                        writeLn.successln('theme-post-types.php updated successfully');
+                        Write.successln('theme-post-types.php updated successfully');
                     });
                 }
-                writeLn.infoln(`${fileName} generated`);
+                Write.infoln(`${fileName} generated`);
 
 
             });
@@ -278,7 +278,7 @@ class ${fileName} {
 new ${fileName}();`,
         function (err) {
             if (err) throw err;
-            writeLn.infoln(`${fileName}.php generated`);
+            Write.infoln(`${fileName}.php generated`);
 
             fs.readFile('./classes/sidebars/theme-sidebars.php', function read(err, data) {
                 if (err) throw err;
@@ -287,10 +287,10 @@ new ${fileName}();`,
                 if (!isImportExists(fileContent, `require_once __DIR__ . '/${className}.php';`)) {
                     fs.appendFile('./classes/sidebars/theme-sidebars.php', `\nrequire_once __DIR__ . '/${className}.php';`, (err) => {
                         if (err) throw err;
-                        writeLn.successln('theme-sidebars.php updated successfully');
+                        Write.successln('theme-sidebars.php updated successfully');
                     });
                 }
-                writeLn.infoln(`${className} generated`);
+                Write.infoln(`${className} generated`);
             });
         });
 }
