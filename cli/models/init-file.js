@@ -1,6 +1,5 @@
 const fs = require('fs');
 const {Write} = require("./Write");
-const {write} = require("./Write");
 const {convertSupportOptionsToBooleans} = require('./data-validation');
 const {generateThemeFiles} = require('./generate-files');
 const {getConfigFile} = require('./file-tools');
