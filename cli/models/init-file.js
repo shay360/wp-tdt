@@ -17,7 +17,7 @@ exports.generateThemeBasicFiles = () => {
 exports.createNewConfigFileWithThemeHeadersOnly = (headers) => {
   Write.infoln("Generating new configuration file");
   fs.writeFile(
-    "tdt.config.json",
+    'tdt.config.json',
     buildNewThemeHeadersOnly(headers),
     function (err) {
       if (err) throw err;
