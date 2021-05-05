@@ -1,4 +1,5 @@
 # wp-tdt - Wordpress Theme Developer Tools
+
 > This library is under development so feel free to write me
 
 ## More nicer documentation coming soon
@@ -20,6 +21,7 @@ all the commands starts with tdt for example, if i would like to see the help of
 `tdt -h` or `tdt --help`<br>
 
 List of commands (with description)<br>
+
 > before generating basic theme you must use init and then support
 
 1. init - Set the basic details of your theme include, theme name, author, URI etc...
@@ -31,7 +33,7 @@ List of commands (with description)<br>
    it uses the tdt.config.json file and this file must be existing
 
 > Now you can start working on the theme<br>
-For compiling the files please run `npm run watch` this will start a gulpfile that will watch the scss and js files.
+> For compiling the files please run `npm run watch` this will start a gulpfile that will watch the scss and js files.
 
 4. create - this command will let you create assets for your theme like template files, widgets, sidebars etc...
 
