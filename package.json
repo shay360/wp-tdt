@@ -8,7 +8,9 @@
     "tdt": "tdt.js"
   },
   "scripts": {
-    "watch": "gulp"
+    "watch": "gulp",
+    "format:check": "prettier --check .",
+    "format:write": "prettier --write ."
   },
   "repository": {
     "type": "git",
