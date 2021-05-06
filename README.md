@@ -1,3 +1,5 @@
+[![Coverage Status](https://coveralls.io/repos/github/shay360/wp-tdt/badge.svg?branch=master)](https://coveralls.io/github/shay360/wp-tdt?branch=master)
+
 # wp-tdt - Wordpress Theme Developer Tools
 
 > This library is under development so feel free to write me
