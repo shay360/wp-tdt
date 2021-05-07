@@ -11,7 +11,8 @@
     "watch": "gulp",
     "format:check": "prettier --check .",
     "format:write": "prettier --write .",
-    "test": "jest"
+    "test": "jest",
+    "coverage": "jest --coverage"
   },
   "repository": {
     "type": "git",
