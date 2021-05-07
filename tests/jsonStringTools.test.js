@@ -1,6 +1,6 @@
-const { removeLastCommma } = require("../cli/models/json-string-tools");
+const { removeLastCommma } = require('../cli/models/json-string-tools');
 
-test("removeLastCommma", () => {
-  const result = removeLastCommma("comma removed,");
-  expect(result).toBe("comma removed");
+test('removeLastCommma', () => {
+	const result = removeLastCommma('comma removed,');
+	expect(result).toBe('comma removed');
 });
