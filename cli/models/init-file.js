@@ -1,12 +1,12 @@
-const fs = require("fs");
-const { Write } = require("./Write");
-const { convertSupportOptionsToBooleans } = require("./data-validation");
-const { generateThemeFiles } = require("./generate-files");
-const { getConfigFile } = require("./file-tools");
+const fs = require('fs');
+const { Write } = require('./Write');
+const { convertSupportOptionsToBooleans } = require('./data-validation');
+const { generateThemeFiles } = require('./generate-files');
+const { getConfigFile } = require('./file-tools');
 
 exports.generateThemeBasicFiles = () => {
-  const themeConfigFile = getConfigFile();
-  generateThemeFiles(themeConfigFile);
+    const themeConfigFile = getConfigFile();
+    generateThemeFiles(themeConfigFile);
 };
 
 /**
@@ -15,20 +15,20 @@ exports.generateThemeBasicFiles = () => {
  * @param headers
  */
 exports.createNewConfigFileWithThemeHeadersOnly = (headers) => {
-  Write.infoln("Generating new configuration file");
-  fs.writeFile(
-    "tdt.config.json",
-    buildNewThemeHeadersOnly(headers),
-    function (err) {
-      if (err) throw err;
-      Write.successln("tdt.config.json created");
-      Write.infoln('For theme support configuration "tdt support"');
-    }
-  );
+    Write.infoln('Generating new configuration file');
+    fs.writeFile(
+        'tdt.config.json',
+        buildNewThemeHeadersOnly(headers),
+        function (err) {
+            if (err) throw err;
+            Write.successln('tdt.config.json created');
+            Write.infoln('For theme support configuration "tdt support"');
+        }
+    );
 };
 
 function buildNewThemeHeadersOnly(headers) {
-  return `{
+    return `{
   "theme_headers": {
     "theme_name": "${headers.theme_name}",
     "theme_uri": "${headers.theme_uri}",
@@ -46,28 +46,34 @@ function buildNewThemeHeadersOnly(headers) {
  */
 
 exports.setNewThemeSupportSectionInConfigurationFile = (supportOptions) => {
-  let currentConfigurationFile;
-  supportOptions = convertSupportOptionsToBooleans(supportOptions);
-  fs.readFile("tdt.config.json", "utf8", (err, data) => {
-    if (err) {
-      Write.errorln("Error while loading config file");
-      throw err;
-    }
-    currentConfigurationFile = JSON.parse(data);
-    const supportSettings = buildConfigurationSupportSection(supportOptions);
-    currentConfigurationFile.theme_support = supportSettings;
-    currentConfigurationFile = JSON.stringify(currentConfigurationFile);
-    fs.writeFile("tdt.config.json", currentConfigurationFile, function (err) {
-      if (err) throw err;
-      Write.infoln("tdt.config.json created and minified");
+    let currentConfigurationFile;
+    supportOptions = convertSupportOptionsToBooleans(supportOptions);
+    fs.readFile('tdt.config.json', 'utf8', (err, data) => {
+        if (err) {
+            Write.errorln('Error while loading config file');
+            throw err;
+        }
+        currentConfigurationFile = JSON.parse(data);
+        const supportSettings = buildConfigurationSupportSection(
+            supportOptions
+        );
+        currentConfigurationFile.theme_support = supportSettings;
+        currentConfigurationFile = JSON.stringify(currentConfigurationFile);
+        fs.writeFile(
+            'tdt.config.json',
+            currentConfigurationFile,
+            function (err) {
+                if (err) throw err;
+                Write.infoln('tdt.config.json created and minified');
+            }
+        );
     });
-  });
 };
 
 function buildConfigurationSupportSection(options) {
-  let results = {};
-  for (let option in options) {
-    results[option] = options[option];
-  }
-  return results;
+    let results = {};
+    for (let option in options) {
+        results[option] = options[option];
+    }
+    return results;
 }

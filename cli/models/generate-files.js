@@ -1,44 +1,48 @@
-const fs = require("fs");
-const { Write } = require("./Write");
-const { convertToFileName } = require("./file-tools");
+const fs = require('fs');
+const { Write } = require('./Write');
+const { convertToFileName } = require('./file-tools');
 
 exports.generateThemeFiles = (themeConfigFile) => {
-  generateBasicTemplateFiles();
-  generateFunctionsFile(themeConfigFile);
-  generateStyleFile(themeConfigFile);
-  generateSrcFiles();
-  generatePostTypeImporter();
-  generateTaxonomiesImporter();
+    generateBasicTemplateFiles();
+    generateFunctionsFile(themeConfigFile);
+    generateStyleFile(themeConfigFile);
+    generateSrcFiles();
+    generatePostTypeImporter();
+    generateTaxonomiesImporter();
 };
 
 function generateTaxonomiesImporter() {
-  fs.mkdir("taxonomies/", { recursive: true }, (err) => {
-    if (err) throw err;
-    Write.infoln("post-types folder generated");
-    fs.writeFile("taxonomies/theme-taxonomies.php", `<?php`, function (err) {
-      if (err) throw err;
-      Write.infoln("theme-taxonomies.php generated");
+    fs.mkdir('taxonomies/', { recursive: true }, (err) => {
+        if (err) throw err;
+        Write.infoln('post-types folder generated');
+        fs.writeFile(
+            'taxonomies/theme-taxonomies.php',
+            `<?php`,
+            function (err) {
+                if (err) throw err;
+                Write.infoln('theme-taxonomies.php generated');
+            }
+        );
     });
-  });
 }
 
 function generateSrcFiles() {
-  fs.mkdir("src/scss", { recursive: true }, (err) => {
-    if (err) throw err;
-    fs.writeFile(
-      "src/scss/theme.scss",
-      `@import "imports/normalize";`,
-      function (err) {
+    fs.mkdir('src/scss', { recursive: true }, (err) => {
         if (err) throw err;
-        Write.infoln("theme.scss generated");
-      }
-    );
-  });
-  fs.mkdir("src/scss/imports", { recursive: true }, (err) => {
-    if (err) throw err;
-    fs.writeFile(
-      "src/scss/imports/normalize.scss",
-      `/*! normalize.css v8.0.1 | MIT License | github.com/necolas/normalize.css */
+        fs.writeFile(
+            'src/scss/theme.scss',
+            `@import "imports/normalize";`,
+            function (err) {
+                if (err) throw err;
+                Write.infoln('theme.scss generated');
+            }
+        );
+    });
+    fs.mkdir('src/scss/imports', { recursive: true }, (err) => {
+        if (err) throw err;
+        fs.writeFile(
+            'src/scss/imports/normalize.scss',
+            `/*! normalize.css v8.0.1 | MIT License | github.com/necolas/normalize.css */
 
 /* Document
    ========================================================================== */
@@ -387,27 +391,27 @@ template {
 [hidden] {
   display: none;
 }`,
-      function (err) {
-        if (err) throw err;
-        Write.infoln("normalize.scss generated");
-      }
-    );
-  });
-
-  fs.mkdir("src/js", { recursive: true }, (err) => {
-    if (err) throw err;
-    fs.writeFile("src/js/theme.js", ``, function (err) {
-      if (err) throw err;
-      Write.infoln("theme.js generated");
+            function (err) {
+                if (err) throw err;
+                Write.infoln('normalize.scss generated');
+            }
+        );
     });
-  });
+
+    fs.mkdir('src/js', { recursive: true }, (err) => {
+        if (err) throw err;
+        fs.writeFile('src/js/theme.js', ``, function (err) {
+            if (err) throw err;
+            Write.infoln('theme.js generated');
+        });
+    });
 }
 
 exports.generateTemplateFile = (templateName) => {
-  const fileName = convertToFileName(templateName) + "-template.php";
-  fs.writeFile(
-    fileName,
-    `<?php
+    const fileName = convertToFileName(templateName) + '-template.php';
+    fs.writeFile(
+        fileName,
+        `<?php
 /*
  * Template Name: ${templateName}
  */
@@ -420,29 +424,33 @@ if ( have_posts() ):
 \tendwhile;
 endif;
 get_footer();`,
-    function (err) {
-      if (err) throw err;
-      Write.infoln("Template File " + templateName + " generated");
-    }
-  );
-  Write.infoln(fileName);
+        function (err) {
+            if (err) throw err;
+            Write.infoln('Template File ' + templateName + ' generated');
+        }
+    );
+    Write.infoln(fileName);
 };
 
 function generatePostTypeImporter() {
-  fs.mkdir("post-types/", { recursive: true }, (err) => {
-    if (err) throw err;
-    Write.infoln("post-types folder generated");
-    fs.writeFile("post-types/theme-post-types.php", `<?php`, function (err) {
-      if (err) throw err;
-      Write.infoln("theme-post-types.php generated");
+    fs.mkdir('post-types/', { recursive: true }, (err) => {
+        if (err) throw err;
+        Write.infoln('post-types folder generated');
+        fs.writeFile(
+            'post-types/theme-post-types.php',
+            `<?php`,
+            function (err) {
+                if (err) throw err;
+                Write.infoln('theme-post-types.php generated');
+            }
+        );
     });
-  });
 }
 
 function generateStyleFile(themeConfigFile) {
-  fs.writeFile(
-    "style.css",
-    `/*
+    fs.writeFile(
+        'style.css',
+        `/*
     Theme Name: ${themeConfigFile.theme_headers.theme_name}
     Theme URI: ${themeConfigFile.theme_headers.theme_uri}
     Description: ${themeConfigFile.theme_headers.theme_description}
@@ -454,17 +462,17 @@ function generateStyleFile(themeConfigFile) {
     License: GPL-2.0-or-later
     License URI: https://www.gnu.org/licenses/old-licenses/gpl-2.0.html
     */`,
-    function (err) {
-      if (err) throw err;
-      Write.infoln("style.css generated");
-    }
-  );
+        function (err) {
+            if (err) throw err;
+            Write.infoln('style.css generated');
+        }
+    );
 }
 
 function generateFunctionsFile(themeConfigFile) {
-  fs.writeFile(
-    "functions.php",
-    `<?php
+    fs.writeFile(
+        'functions.php',
+        `<?php
 // Include basic theme setup
 require_once __DIR__ . '/includes/theme-setup.php';
 // Include importer for custom post types
@@ -477,57 +485,61 @@ require_once __DIR__ . '/classes/widgets/theme-widgets.php';
 require_once __DIR__ . '/classes/sidebars/theme-sidebars.php';
 // Include importer for dashboard widgets
 require_once __DIR__ . '/classes/dashboard-widgets/theme-dashboard-widgets.php';`,
-    function (err) {
-      if (err) throw err;
-      Write.infoln("functions.php generated");
-    }
-  );
+        function (err) {
+            if (err) throw err;
+            Write.infoln('functions.php generated');
+        }
+    );
 
-  fs.writeFile(
-    "sidebar.php",
-    `<?php if(!dynamic_sidebar('sidebar-page')): ?>
+    fs.writeFile(
+        'sidebar.php',
+        `<?php if(!dynamic_sidebar('sidebar-page')): ?>
     <h4 role="heading">This sidebar needs widgets</h4>
     <p>Drug and drop widgets from Appearance->widgets</p>
 <?php endif; ?>`,
-    function (err) {
-      if (err) throw err;
-      Write.infoln("sidebar.php generated");
-      Write.infoln("You use main sidebar get_sidebar('main-sidebar')");
-    }
-  );
-
-  fs.mkdir("includes/", { recursive: true }, (err) => {
-    if (err) throw err;
-    fs.writeFile(
-      "includes/theme-setup.php",
-      generateThemeSetupFile(themeConfigFile),
-      function (err) {
-        if (err) throw err;
-        Write.infoln("theme-setup.php generated");
-      }
+        function (err) {
+            if (err) throw err;
+            Write.infoln('sidebar.php generated');
+            Write.infoln("You use main sidebar get_sidebar('main-sidebar')");
+        }
     );
-  });
 
-  fs.mkdir("classes/widgets/", { recursive: true }, (err) => {
-    if (err) throw err;
-    fs.writeFile("classes/widgets/theme-widgets.php", `<?php`, function (err) {
-      if (err) throw err;
-      Write.infoln("theme-widgets.php generated");
-    });
-  });
-
-  fs.mkdir("classes/sidebars/", { recursive: true }, (err) => {
-    if (err) throw err;
-    fs.writeFile(
-      "classes/sidebars/theme-sidebars.php",
-      `<?php
-require_once __DIR__ . '/ThemeSidebar.php';`,
-      function (err) {
+    fs.mkdir('includes/', { recursive: true }, (err) => {
         if (err) throw err;
-        Write.infoln("theme-sidebars.php generated");
         fs.writeFile(
-          "classes/sidebars/ThemeSidebar.php",
-          `<?php
+            'includes/theme-setup.php',
+            generateThemeSetupFile(themeConfigFile),
+            function (err) {
+                if (err) throw err;
+                Write.infoln('theme-setup.php generated');
+            }
+        );
+    });
+
+    fs.mkdir('classes/widgets/', { recursive: true }, (err) => {
+        if (err) throw err;
+        fs.writeFile(
+            'classes/widgets/theme-widgets.php',
+            `<?php`,
+            function (err) {
+                if (err) throw err;
+                Write.infoln('theme-widgets.php generated');
+            }
+        );
+    });
+
+    fs.mkdir('classes/sidebars/', { recursive: true }, (err) => {
+        if (err) throw err;
+        fs.writeFile(
+            'classes/sidebars/theme-sidebars.php',
+            `<?php
+require_once __DIR__ . '/ThemeSidebar.php';`,
+            function (err) {
+                if (err) throw err;
+                Write.infoln('theme-sidebars.php generated');
+                fs.writeFile(
+                    'classes/sidebars/ThemeSidebar.php',
+                    `<?php
 
 class ThemeSidebars {
     public function __construct() {
@@ -549,30 +561,30 @@ class ThemeSidebars {
 }
 
 new ThemeSidebars();`,
-          function (err) {
-            if (err) throw err;
-            Write.infoln("ThemeSidebar.php generated");
-          }
+                    function (err) {
+                        if (err) throw err;
+                        Write.infoln('ThemeSidebar.php generated');
+                    }
+                );
+            }
         );
-      }
-    );
-  });
+    });
 
-  fs.mkdir("classes/dashboard-widgets/", { recursive: true }, (err) => {
-    if (err) throw err;
-    fs.writeFile(
-      "classes/dashboard-widgets/theme-dashboard-widgets.php",
-      `<?php`,
-      function (err) {
+    fs.mkdir('classes/dashboard-widgets/', { recursive: true }, (err) => {
         if (err) throw err;
-        Write.infoln("theme-dashboard-widgets.php generated");
-      }
-    );
-  });
+        fs.writeFile(
+            'classes/dashboard-widgets/theme-dashboard-widgets.php',
+            `<?php`,
+            function (err) {
+                if (err) throw err;
+                Write.infoln('theme-dashboard-widgets.php generated');
+            }
+        );
+    });
 }
 
 function generateThemeSetupFile(themeConfigFile) {
-  let finalString = `<?php
+    let finalString = `<?php
 
 class ThemeSetup {
 
@@ -582,50 +594,50 @@ class ThemeSetup {
 
 \tpublic function addThemeSupport() {`;
 
-  for (const support in themeConfigFile.theme_support) {
-    Write.infoln(support);
-    if (themeConfigFile.theme_support[support]) {
-      if (support === "html-5") {
-        finalString += `\t\tadd_theme_support( '${support}', ['comment-list', 'comment-form', 'search-form', 'gallery', 'caption', 'style', 'script'] );\n`;
-      } else if (support === "custom-logo") {
-        finalString += `\t\tadd_theme_support( '${support}', ['height' => 20, 'width' => 100, 'flex-height' => true, 'flex-width'  => true, 'header-text' => ['site-title', 'site-description']] );\n`;
-      } else if (support === "custom-background") {
-        finalString += `\t\tadd_theme_support( '${support}', ['default-image' => '', 'default-preset' => 'default', 'default-position-x' => 'left', 'default-position-y' => 'top', 'default-size' => 'auto', 'default-repeat' => 'repeat', 'default-attachment' => 'scroll', 'default-color' => '', 'wp-head-callback' => '_custom_background_cb', 'admin-head-callback' => '', 'admin-preview-callback' => ''] );\n`;
-      } else if (support === "custom-header") {
-        finalString += `\t\tadd_theme_support( '${support}', ['default-image' => '', 'random-default' => false, 'width' => 0, 'height' => 0, 'flex-height' => false, 'flex-width' => false, 'default-text-color' => '', 'header-text' => true, 'uploads' => true, 'wp-head-callback' => '', 'admin-head-callback' => '', 'admin-preview-callback' => '', 'video' => false, 'video-active-callback' => 'is_front_page'] );\n`;
-      } else if (support === "post-formats") {
-        finalString += `\t\tadd_theme_support( '${support}', ['aside', 'gallery', 'link', 'image', 'quote', 'status', 'video', 'audio', 'chat'] );\n`;
-      } else {
-        finalString += `\t\tadd_theme_support( '${support}' );\n`;
-      }
+    for (const support in themeConfigFile.theme_support) {
+        Write.infoln(support);
+        if (themeConfigFile.theme_support[support]) {
+            if (support === 'html-5') {
+                finalString += `\t\tadd_theme_support( '${support}', ['comment-list', 'comment-form', 'search-form', 'gallery', 'caption', 'style', 'script'] );\n`;
+            } else if (support === 'custom-logo') {
+                finalString += `\t\tadd_theme_support( '${support}', ['height' => 20, 'width' => 100, 'flex-height' => true, 'flex-width'  => true, 'header-text' => ['site-title', 'site-description']] );\n`;
+            } else if (support === 'custom-background') {
+                finalString += `\t\tadd_theme_support( '${support}', ['default-image' => '', 'default-preset' => 'default', 'default-position-x' => 'left', 'default-position-y' => 'top', 'default-size' => 'auto', 'default-repeat' => 'repeat', 'default-attachment' => 'scroll', 'default-color' => '', 'wp-head-callback' => '_custom_background_cb', 'admin-head-callback' => '', 'admin-preview-callback' => ''] );\n`;
+            } else if (support === 'custom-header') {
+                finalString += `\t\tadd_theme_support( '${support}', ['default-image' => '', 'random-default' => false, 'width' => 0, 'height' => 0, 'flex-height' => false, 'flex-width' => false, 'default-text-color' => '', 'header-text' => true, 'uploads' => true, 'wp-head-callback' => '', 'admin-head-callback' => '', 'admin-preview-callback' => '', 'video' => false, 'video-active-callback' => 'is_front_page'] );\n`;
+            } else if (support === 'post-formats') {
+                finalString += `\t\tadd_theme_support( '${support}', ['aside', 'gallery', 'link', 'image', 'quote', 'status', 'video', 'audio', 'chat'] );\n`;
+            } else {
+                finalString += `\t\tadd_theme_support( '${support}' );\n`;
+            }
+        }
     }
-  }
 
-  finalString += `\t}
+    finalString += `\t}
 }
 new ThemeSetup();`;
 
-  return finalString;
+    return finalString;
 }
 
 function generateBasicTemplateFiles() {
-  fs.mkdir("languages", { recursive: true }, (err) => {
-    if (err) throw err;
-    fs.writeFile(
-      "languages/README.txt",
-      `This directory should contain translation files for your theme`,
-      function (err) {
+    fs.mkdir('languages', { recursive: true }, (err) => {
         if (err) throw err;
-        Write.infoln("README.txt file in languages generated");
-      }
-    );
-  });
+        fs.writeFile(
+            'languages/README.txt',
+            `This directory should contain translation files for your theme`,
+            function (err) {
+                if (err) throw err;
+                Write.infoln('README.txt file in languages generated');
+            }
+        );
+    });
 
-  fs.mkdir("template-parts", { recursive: true }, (err) => {
-    if (err) throw err;
-    fs.writeFile(
-      "template-parts/get-post.php",
-      `<?php
+    fs.mkdir('template-parts', { recursive: true }, (err) => {
+        if (err) throw err;
+        fs.writeFile(
+            'template-parts/get-post.php',
+            `<?php
 if ( have_posts() ):
 \twhile ( have_posts() ) : the_post();
 \t\tthe_post_thumbnail();
@@ -634,15 +646,15 @@ if ( have_posts() ):
 \tendwhile;
 endif;
 ?>`,
-      function (err) {
-        if (err) throw err;
-        Write.infoln("Template Part get-post.php generated");
-      }
-    );
+            function (err) {
+                if (err) throw err;
+                Write.infoln('Template Part get-post.php generated');
+            }
+        );
 
-    fs.writeFile(
-      "template-parts/get-posts.php",
-      `<?php
+        fs.writeFile(
+            'template-parts/get-posts.php',
+            `<?php
 if ( have_posts() ):
 \twhile ( have_posts() ) : the_post();
 \t\tget_the_tag_list();
@@ -652,103 +664,103 @@ if ( have_posts() ):
 \tendwhile;
 endif;
 ?>`,
-      function (err) {
-        if (err) throw err;
-        Write.infoln("Template Part get-posts.php generated");
-      }
+            function (err) {
+                if (err) throw err;
+                Write.infoln('Template Part get-posts.php generated');
+            }
+        );
+    });
+
+    fs.writeFile(
+        'home.php',
+        `<?php get_header(); ?>
+<?php get_template_part( 'template-parts/get', 'posts' ); ?>
+<?php get_footer(); ?>`,
+        function (err) {
+            if (err) throw err;
+            Write.infoln('Home file: home.php generated');
+        }
     );
-  });
 
-  fs.writeFile(
-    "home.php",
-    `<?php get_header(); ?>
+    fs.writeFile(
+        'archive.php',
+        `<?php get_header(); ?>
 <?php get_template_part( 'template-parts/get', 'posts' ); ?>
 <?php get_footer(); ?>`,
-    function (err) {
-      if (err) throw err;
-      Write.infoln("Home file: home.php generated");
-    }
-  );
+        function (err) {
+            if (err) throw err;
+            Write.infoln('Archive file: archive.php generated');
+        }
+    );
 
-  fs.writeFile(
-    "archive.php",
-    `<?php get_header(); ?>
+    fs.writeFile(
+        'index.php',
+        `<?php get_header(); ?>
 <?php get_template_part( 'template-parts/get', 'posts' ); ?>
 <?php get_footer(); ?>`,
-    function (err) {
-      if (err) throw err;
-      Write.infoln("Archive file: archive.php generated");
-    }
-  );
+        function (err) {
+            if (err) throw err;
+            Write.infoln('Index file: index.php generated');
+        }
+    );
 
-  fs.writeFile(
-    "index.php",
-    `<?php get_header(); ?>
+    fs.writeFile(
+        'category.php',
+        `<?php get_header(); ?>
 <?php get_template_part( 'template-parts/get', 'posts' ); ?>
 <?php get_footer(); ?>`,
-    function (err) {
-      if (err) throw err;
-      Write.infoln("Index file: index.php generated");
-    }
-  );
+        function (err) {
+            if (err) throw err;
+            Write.infoln('Category Posts file: category.php generated');
+        }
+    );
 
-  fs.writeFile(
-    "category.php",
-    `<?php get_header(); ?>
+    fs.writeFile(
+        'page.php',
+        `<?php get_header(); ?>
 <?php get_template_part( 'template-parts/get', 'posts' ); ?>
 <?php get_footer(); ?>`,
-    function (err) {
-      if (err) throw err;
-      Write.infoln("Category Posts file: category.php generated");
-    }
-  );
+        function (err) {
+            if (err) throw err;
+            Write.infoln('Page file: page.php generated');
+        }
+    );
 
-  fs.writeFile(
-    "page.php",
-    `<?php get_header(); ?>
-<?php get_template_part( 'template-parts/get', 'posts' ); ?>
-<?php get_footer(); ?>`,
-    function (err) {
-      if (err) throw err;
-      Write.infoln("Page file: page.php generated");
-    }
-  );
-
-  fs.writeFile(
-    "single.php",
-    `<?php get_header(); ?>
+    fs.writeFile(
+        'single.php',
+        `<?php get_header(); ?>
 <?php get_template_part( 'template-parts/get', 'post' ); ?>
 <?php get_footer(); ?>`,
-    function (err) {
-      if (err) throw err;
-      Write.infoln("Single Post file: single.php generated");
-    }
-  );
+        function (err) {
+            if (err) throw err;
+            Write.infoln('Single Post file: single.php generated');
+        }
+    );
 
-  fs.writeFile(
-    "tag.php",
-    `<?php get_header(); ?>
+    fs.writeFile(
+        'tag.php',
+        `<?php get_header(); ?>
 <?php get_template_part( 'template-parts/get', 'posts' ); ?>
 <?php get_footer(); ?>`,
-    function (err) {
-      if (err) throw err;
-      Write.infoln("Tags file: tag.php generated");
-    }
-  );
+        function (err) {
+            if (err) throw err;
+            Write.infoln('Tags file: tag.php generated');
+        }
+    );
 
-  fs.writeFile(
-    "footer.php",
-    `<?php wp_footer(); ?>
+    fs.writeFile(
+        'footer.php',
+        `<?php wp_footer(); ?>
 </body>
 </html>`,
-    function (err) {
-      if (err) throw err;
-      Write.infoln("Footer file: footer.php generated");
-    }
-  );
-  fs.writeFile(
-    "header.php",
-    `<!DOCTYPE html>
+        function (err) {
+            if (err) throw err;
+            Write.infoln('Footer file: footer.php generated');
+        }
+    );
+    fs.writeFile(
+        'header.php',
+        `<!DOCTYPE html>
 <html <?php language_attributes(); ?>>
 <head>
     <meta charset="<?php bloginfo( 'charset' ); ?>">
@@ -759,14 +771,14 @@ endif;
 \t<?php wp_head(); ?>
 </head>
 <body <?php body_class(); ?> role="document">`,
-    function (err) {
-      if (err) throw err;
-      Write.infoln("Header file: header.php generated");
-    }
-  );
-  fs.writeFile(
-    "comments.php",
-    `<div class="comments">
+        function (err) {
+            if (err) throw err;
+            Write.infoln('Header file: header.php generated');
+        }
+    );
+    fs.writeFile(
+        'comments.php',
+        `<div class="comments">
 \t<?php if ( post_password_required() ) : ?>
         <p>Use Password</p>
 \t<?php endif; ?>
@@ -784,9 +796,9 @@ elseif ( ! comments_open()
 <?php comment_form(); ?>
 </div>
 `,
-    function (err) {
-      if (err) throw err;
-      Write.infoln("Comments file: comments.php generated");
-    }
-  );
+        function (err) {
+            if (err) throw err;
+            Write.infoln('Comments file: comments.php generated');
+        }
+    );
 }

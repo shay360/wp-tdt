@@ -1,3 +1,3 @@
 exports.removeLastCommma = (jsonString) => {
-  return jsonString.replace(/,\s*$/, "");
+    return jsonString.replace(/,\s*$/, '');
 };
