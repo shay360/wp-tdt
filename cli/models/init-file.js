@@ -54,9 +54,8 @@ exports.setNewThemeSupportSectionInConfigurationFile = (supportOptions) => {
 			throw err;
 		}
 		currentConfigurationFile = JSON.parse(data);
-		const supportSettings = buildConfigurationSupportSection(
-			supportOptions
-		);
+		const supportSettings =
+			buildConfigurationSupportSection(supportOptions);
 		currentConfigurationFile.theme_support = supportSettings;
 		currentConfigurationFile = JSON.stringify(currentConfigurationFile);
 		fs.writeFile(
