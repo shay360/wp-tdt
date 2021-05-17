@@ -9,3 +9,6 @@ jobs:
         run: yarn
       - name: Run Coverage Test
         run: yarn test:coverage
+      - name: Run Coverage Badgs
+        run: yran test:badges
+
