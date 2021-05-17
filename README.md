@@ -2,8 +2,6 @@
 
 > This library is under development so feel free to write me
 
-![Coverage badge gree][coverage-badge-green]
-
 ## More nicer documentation coming soon
 
 > This tool came to standardize the WordPress template development process and all without compromising the freedom of the programmer.
