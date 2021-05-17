@@ -12,8 +12,8 @@
 		"format:check": "prettier --check .",
 		"format:write": "prettier --write .",
 		"test": "jest",
-      "test:coverage": "npm test -- --coverage",
-      "test:badges": "npm run test:coverage  && jest-coverage-badges"
+		"test:coverage": "npm test -- --coverage",
+		"test:badges": "npm run test:coverage  && jest-coverage-badges"
 	},
 	"repository": {
 		"type": "git",
@@ -43,11 +43,11 @@
 		"prettier": "^2.2.1"
 	},
 	"dependencies": {},
-  "jest": {
-    "coverageReporters": [
-      "json-summary",
-      "text",
-      "lcov"
-    ]
-  }
+	"jest": {
+		"coverageReporters": [
+			"json-summary",
+			"text",
+			"lcov"
+		]
+	}
 }
